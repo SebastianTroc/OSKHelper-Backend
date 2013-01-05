@@ -1,5 +1,5 @@
 {
- "name":"af-node-base",
+ "name":"OSKhelper",
   "version":"0.0.1",
   "dependencies":{
       "express":""
