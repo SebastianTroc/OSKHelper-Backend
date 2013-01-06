@@ -1,1 +1,1 @@
-"# Aplikacja pomagaj¥ca szkoˆom nauki jazdy w planowaniu wykorzystania dost©pnych plac¢w manewrowych. Projekt na potrzeby pracy dyplomowej w WSEI." 
+"# Aplikacja pomagajÄ…ca szkoÅ‚om nauki jazdy w planowaniu wykorzystania dostÄ™pnych placÃ³w manewrowych. Projekt na potrzeby pracy dyplomowej w WSEI." 
