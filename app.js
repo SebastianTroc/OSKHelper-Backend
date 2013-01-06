@@ -6,6 +6,7 @@
 var http 		= require('http')
 	,	fs 			= require("fs")
 	, express = require('express')
+	, verbose = process.env.NODE_ENV != 'test'
   , routes 	= require('./routes')
   , user 		= require('./routes/user')
   , path 		= require('path')
@@ -35,11 +36,32 @@ app.configure('development', function(){
 
 
 /**
+ * Mapping method for router.
+ */
+app.map = function(a, route){
+  route = route || '';
+  for (var key in a) {
+    switch (typeof a[key]) {
+      // { '/path': { ... }}
+      case 'object':
+        app.map(a[key], route + key);
+        break;
+      // get: function(){ ... }
+      case 'function':
+        if (verbose) console.log('%s %s', key, route);
+        app[key](route, a[key]);
+        break;
+    }
+  }
+};
+
+
+/**
  * MongoDB test.
  */
 
 var dataFromMongoDB;
-// Node odpala ta funkcje, gdy mongo jest juz dostepne do uzycia
+// Node fires this when Mongo is available to use
 db.open(function(){
 
 	db.collection('testCollection', function(err, testCollection){
@@ -70,11 +92,24 @@ db.open(function(){
 
 });
 
-app.get('/', routes.index);
-app.get('/users', user.list);
-app.get('/db_test', function(req, res) {
-    res.send(dataFromMongoDB);
+
+/**
+ * Routing map.
+ */
+app.map({
+  '/': {
+    get: routes.index
+  },
+  '/users': {
+  	get: user.list
+  },
+  '/db_test': {
+  	get: 	function(req, res) {
+    				res.send(dataFromMongoDB);
+					}
+  }
 });
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
