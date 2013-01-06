@@ -3,13 +3,15 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path')
+var http 		= require('http')
+	,	fs 			= require("fs")
+	, express = require('express')
+  , routes 	= require('./routes')
+  , user 		= require('./routes/user')
+  , path 		= require('path')
+	, config 	= JSON.parse(fs.readFileSync("config.json"))
   ,	mongo 	= require('mongodb')
-	,	db 			= new mongo.Db('oskhelper', new mongo.Server( 'localhost', 27017, {} ) , {});
+	,	db 			= new mongo.Db(config.mongodb.dbname, new mongo.Server( config.mongodb.host, config.mongodb.port, {} ) , {});
 
 var app = express();
 
