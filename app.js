@@ -3,6 +3,8 @@ var express = require('express')
 ,		mongo 	= require('mongodb')
 ,		db 			= new mongo.Db('oskhelper', new mongo.Server( 'localhost', 27017, {} ) , {});
 
+var dataFromMongoDB;
+
 // Node odpala ta funkcje, gdy mongo jest juz dostepne do uzycia
 db.open(function(){
 
@@ -25,7 +27,7 @@ db.open(function(){
 		testCollection.find({}, function(err, cursor){
 			cursor.each(function(err, data){
 				if (data != null) {
-					console.log(data);
+					dataFromMongoDB = data;
 				}
 			});
 		});
@@ -35,7 +37,7 @@ db.open(function(){
 })
 
 app.get('/', function(req, res) {
-    res.send('Działa!');
+    res.send(dataFromMongoDB);
 });
 
 app.listen(process.env.VCAP_APP_PORT || 3000);
