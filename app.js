@@ -6,21 +6,29 @@ var express = require('express')
 // Node odpala ta funkcje, gdy mongo jest juz dostepne do uzycia
 db.open(function(){
 
-	db.collection('testCollection', function(err, collection){
+	db.collection('testCollection', function(err, testCollection){
 
-		doc = {
-			"name" : "MongoDB",
-			"type" : "database",
-			"count": 1,
-			"info" : {
-				x: 203,
-				y: 102
-			}
-		};
+		// doc = {
+		// 	"name" : "MongoDB",
+		// 	"type" : "database",
+		// 	"count": 1,
+		// 	"info" : {
+		// 		x: 203,
+		// 		y: 102
+		// 	}
+		// };
 
-		collection.insert(doc, function(){
-			console.log("wstawilem dane do testowej kolekcji 'testCollection'");
-		})
+		// testCollection.insert(doc, function(){
+		// 	console.log("wstawilem dane do testowej kolekcji 'testCollection'");
+		// });
+
+		testCollection.find({}, function(err, cursor){
+			cursor.each(function(err, data){
+				if (data != null) {
+					console.log(data);
+				}
+			});
+		});
 
 	});
 
