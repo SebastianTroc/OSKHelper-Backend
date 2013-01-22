@@ -3,16 +3,16 @@
  * Module dependencies.
  */
 
-var http 		= require('http')
-	,	fs 			= require("fs")
-	, express = require('express')
-	, verbose = process.env.NODE_ENV != 'test'
-  , routes 	= require('./routes')
-  , user 		= require('./routes/user')
-  , path 		= require('path')
-	, config 	= JSON.parse(fs.readFileSync("config.json"))
-  ,	mongo 	= require('mongodb')
-	,	db 			= new mongo.Db(config.mongodb.dbname, new mongo.Server( config.mongodb.host, config.mongodb.port, {} ) , {});
+var http 		     = require('http')
+	,	fs 			     = require("fs")
+	, express      = require('express')
+	, verbose      = process.env.NODE_ENV != 'test'
+  , routes 	     = require('./routes')
+  , instructors  = require('./routes/instructors')
+  , path 		     = require('path')
+	, config 	     = JSON.parse(fs.readFileSync("config.json"))
+  ,	mongo 	     = require('mongodb')
+	,	db 			     = new mongo.Db(config.mongodb.dbname, new mongo.Server( config.mongodb.host, config.mongodb.port, {} ) , {});
 
 var app = express();
 
@@ -100,14 +100,22 @@ app.map({
   '/': {
     get: routes.index
   },
-  '/users': {
-  	get: user.list
-  },
-  '/db_test': {
-  	get: 	function(req, res) {
-    				res.send(dataFromMongoDB);
-					}
+
+  '/instructors': {
+  	get: instructors.findAll,
+    post: instructors.addInstructor,
+
+    '/:id': {
+      get: instructors.findById,
+      put: instructors.updateInstructor,
+      delete: instructors.deleteInstructor
+    }
   }
+  // '/db_test': {
+  // 	get: 	function(req, res) {
+  //   				res.send(dataFromMongoDB);
+		// 			}
+  // }
 });
 
 
