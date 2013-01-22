@@ -11,8 +11,9 @@ var http 		     = require('http')
   , instructors  = require('./routes/instructors')
   , path 		     = require('path')
 	, config 	     = JSON.parse(fs.readFileSync("config.json"))
-  ,	mongo 	     = require('mongodb')
-	,	db 			     = new mongo.Db(config.mongodb.dbname, new mongo.Server( config.mongodb.host, config.mongodb.port, {} ) , {});
+  , mongoose     = require('mongoose')
+  // ,	mongo 	     = require('mongodb')
+	// ,	db 			     = new mongo.Db(config.mongodb.dbname, new mongo.Server( config.mongodb.host, config.mongodb.port, {} ) , {});
 
 var app = express();
 
