@@ -17,6 +17,9 @@ var http 		     = require('http')
 
 var app = express();
 
+// connect to Mongo when the app initializes
+mongoose.connect('mongodb://localhost/oskhelper');
+
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
@@ -58,43 +61,6 @@ app.map = function(a, route){
 
 
 /**
- * MongoDB test.
- */
-
-var dataFromMongoDB;
-// Node fires this when Mongo is available to use
-db.open(function(){
-
-	db.collection('testCollection', function(err, testCollection){
-
-		// doc = {
-		// 	"name" : "MongoDB",
-		// 	"type" : "database",
-		// 	"count": 1,
-		// 	"info" : {
-		// 		x: 203,
-		// 		y: 102
-		// 	}
-		// };
-
-		// testCollection.insert(doc, function(){
-		// 	console.log("wstawilem dane do testowej kolekcji 'testCollection'");
-		// });
-
-		testCollection.find({}, function(err, cursor){
-			cursor.each(function(err, data){
-				if (data != null) {
-					dataFromMongoDB = data;
-				}
-			});
-		});
-
-	});
-
-});
-
-
-/**
  * Routing map.
  */
 app.map({
@@ -104,19 +70,14 @@ app.map({
 
   '/instructors': {
   	get: instructors.findAll,
-    post: instructors.addInstructor,
-
+    post: instructors.addNew,
     '/:id': {
       get: instructors.findById,
       put: instructors.updateInstructor,
       delete: instructors.deleteInstructor
     }
   }
-  // '/db_test': {
-  // 	get: 	function(req, res) {
-  //   				res.send(dataFromMongoDB);
-		// 			}
-  // }
+
 });
 
 
