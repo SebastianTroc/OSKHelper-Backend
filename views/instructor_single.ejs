@@ -1,0 +1,13 @@
+<% include header.ejs %>
+
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+
+    <% if (data.instructor) { %>
+		<%= data.instructor %>
+    <% } %>
+
+    <br>
+    <a href="/instructors">Powrót do listy instruktorów</a>
+
+<% include footer.ejs %>
