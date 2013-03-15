@@ -102,11 +102,14 @@ app.map({
     post: places.addNew,
     '/:id': {
       get: places.findById,
-      put: places.updateInstructor,
-      delete: places.deleteInstructor
+      put: places.updatePlace,
+      delete: places.deletePlace
     },
     '_new': {
       get: places.createNew
+    },
+    '_edit/:id': {
+      get: places.editExisting
     },
     '_generate': {
       get: places.createNewWithFaker

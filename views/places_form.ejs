@@ -42,13 +42,35 @@
 
 <% } else { // EDYCJA INTNIEJĄCEGO %>
 
-	<ul>
-		<% data.places.forEach(function(place){ %>
-			<li>
-				<a href="/places/<%= place._id %>"><%= place.name %></a> (<%= place %>)
-			</li>
-		<% }) %>
-	</ul>
+	<form class="form-horizontal" action="/places/<%= data.place._id %>" method="put">
+
+		<div class="control-group">
+	    <label class="control-label" for="name">Nazwa</label>
+	    <div class="controls">
+	      <input type="text" id="name" name="name" value="<%= data.place.name %>" placeholder="Plac #...">
+	    </div>
+	  </div>
+
+	  <div class="control-group">
+	    <label class="control-label" for="address">Adres</label>
+	    <div class="controls">
+	      <input type="text" id="address" value="<%= data.place.address %>" placeholder="Dworcowa 358...">
+	    </div>
+	  </div>
+
+	  <div class="control-group">
+	    <label class="control-label" for="photo">Zdjęcie</label>
+	    <div class="controls">
+	      <input type="text" id="photo" value="<%= data.place.photo %>" placeholder="Dworcowa 358...">
+	    </div>
+	  </div>
+
+		<div class="form-actions">
+		  <button type="submit" class="btn btn-primary">Zapisz</button>
+		  <button type="button" class="btn">Anuluj</button>
+		</div>
+
+	</form>
 
 <% } %>
 

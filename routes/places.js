@@ -24,7 +24,7 @@ exports.findById = function(req, res) {
  * GET instructor add form.
  */
 exports.editExisting = function(req, res) {
-    Place.findOne( { _id: req.params.id }, function(err, instructor) {
+    Place.findOne( { _id: req.params.id }, function(err, place) {
      res.render('places_form', { title: 'Edycja placu: '+place.name, data: {place: place} });
     })
 };
@@ -78,4 +78,28 @@ exports.createNewWithFaker = function(req, res) {
     }).save();
 
     res.redirect('/places');
+};
+
+
+/*
+ * PUT updated place.
+ */
+exports.updatePlace = function(req, res) {
+
+    console.log(req.body);
+
+    // var Faker           = require('Faker')
+    // ,   randomName      = 'Plac #' + Faker.random.number()
+    // ,   randomAddress   = Faker.Address.streetAddress();
+
+    // new Place(
+    // {
+    //     name: randomName,
+    //     address: randomAddress,
+    //     photo: 'plac1.jpg',
+    //     occupated: false
+    // }).save();
+
+    res.redirect('/places');
+
 };

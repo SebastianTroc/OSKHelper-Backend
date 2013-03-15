@@ -22,3 +22,9 @@ body {
 .hero-unit h1 {
 	font-size: 40px;
 }
+.center {
+	text-align: center !important;
+}
+table.table td {
+	vertical-align: middle;
+}

@@ -4,7 +4,7 @@
 
 <% if (data.places.length) { %>
 
-<table class="table table-hover table-bordered">
+<table class="table table-hover table-striped table-bordered">
 	<thead>
 		<tr>
 			<th>Zdjęcie</th>
@@ -17,7 +17,9 @@
 	<tbody>
 		<% data.places.forEach(function(place){ %>
 		<tr>
-			<td><%= place.photo %></td>
+			<td class="center">
+				<img class="img-polaroid" src="/assets/<%= place.photo %>" alt="Photo">
+			</td>
 			<td><%= place.name %></td>
 			<td><%= place.address %></td>
 			<td><%= place.occupated %></td>
