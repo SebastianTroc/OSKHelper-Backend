@@ -9,24 +9,34 @@ var http 		     = require('http')
 	, verbose      = process.env.NODE_ENV != 'test'
   , routes 	     = require('./routes')
   , instructors  = require('./routes/instructors')
+  , places       = require('./routes/places')
   , path 		     = require('path')
 	, config 	     = JSON.parse(fs.readFileSync("config.json"))
-  , mongoose     = require('mongoose')
+  , mongoose     = require('mongoose');
   // ,	mongo 	     = require('mongodb')
 	// ,	db 			     = new mongo.Db(config.mongodb.dbname, new mongo.Server( config.mongodb.host, config.mongodb.port, {} ) , {});
 
 var app = express();
 
 // connect to Mongo when the app initializes
-mongoose.connect('mongodb://localhost/oskhelper');
+mongoose.connect('mongodb://'+ config.mongodb.user +':'+ config.mongodb.password +'@'+ config.mongodb.host +':'+ config.mongodb.port +'/'+ config.mongodb.dbname);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('polaczono z mongolab');
+});
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
+  // app.use(express.basicAuth('user', 'pass'));
   app.use(express.favicon());
   app.use(express.logger('dev'));
-  app.use(express.bodyParser());
+  app.use(express.bodyParser({
+    uploadDir: __dirname + '/public/assets',
+    keepExtensions: true
+  }));
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
   app.use(express.session());
@@ -75,6 +85,31 @@ app.map({
       get: instructors.findById,
       put: instructors.updateInstructor,
       delete: instructors.deleteInstructor
+    },
+    '_new': {
+      get: instructors.createNew
+    },
+    '_edit/:id': {
+      //
+    },
+    '_delete/:id': {
+      //
+    },
+  },
+
+  '/places': {
+    get: places.findAll,
+    post: places.addNew,
+    '/:id': {
+      get: places.findById,
+      put: places.updateInstructor,
+      delete: places.deleteInstructor
+    },
+    '_new': {
+      get: places.createNew
+    },
+    '_generate': {
+      get: places.createNewWithFaker
     }
   }
 

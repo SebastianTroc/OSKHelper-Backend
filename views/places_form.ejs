@@ -1,0 +1,55 @@
+<% include header.ejs %>
+
+<h1><%= title %></h1>
+
+<% if ( !data ) { // TWORZENIE NOWEGO %>
+
+	<form class="form-horizontal" action="/places" method="post" enctype="multipart/form-data">
+
+		<div class="control-group">
+	    <label class="control-label" for="name">Nazwa</label>
+	    <div class="controls">
+	      <input type="text" id="name" name="name" placeholder="Plac #...">
+	    </div>
+	  </div>
+
+	  <div class="control-group">
+	    <label class="control-label" for="address">Adres</label>
+	    <div class="controls">
+	      <input type="text" id="address" placeholder="Dworcowa 358...">
+	    </div>
+	  </div>
+
+	  <div class="control-group">
+	    <label class="control-label" for="inputPassword">Zdjęcie</label>
+	    <div class="controls">
+	      <div class="fileupload fileupload-new" data-provides="fileupload">
+				  <div class="fileupload-preview thumbnail" style="width: 100px; height: 100px;"></div>
+				  <div>
+				    <span class="btn btn-file"><span class="fileupload-new">Wybierz plik</span><span class="fileupload-exists">Zmień plik</span><input type="file" /></span>
+				    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Usuń</a>
+				  </div>
+				</div>
+	    </div>
+	  </div>
+
+		<div class="form-actions">
+		  <button type="submit" class="btn btn-primary">Zapisz</button>
+		  <button type="button" class="btn">Anuluj</button>
+		</div>
+
+	</form>
+
+<% } else { // EDYCJA INTNIEJĄCEGO %>
+
+	<ul>
+		<% data.places.forEach(function(place){ %>
+			<li>
+				<a href="/places/<%= place._id %>"><%= place.name %></a> (<%= place %>)
+			</li>
+		<% }) %>
+	</ul>
+
+<% } %>
+
+<% include footer.ejs %>
