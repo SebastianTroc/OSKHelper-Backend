@@ -16,7 +16,7 @@
 	  <div class="control-group">
 	    <label class="control-label" for="address">Adres</label>
 	    <div class="controls">
-	      <input type="text" id="address" placeholder="Dworcowa 358...">
+	      <input type="text" id="address" name="address" placeholder="Dworcowa 358...">
 	    </div>
 	  </div>
 
@@ -26,7 +26,7 @@
 	      <div class="fileupload fileupload-new" data-provides="fileupload">
 				  <div class="fileupload-preview thumbnail" style="width: 100px; height: 100px;"></div>
 				  <div>
-				    <span class="btn btn-file"><span class="fileupload-new">Wybierz plik</span><span class="fileupload-exists">Zmień plik</span><input type="file" /></span>
+				    <span class="btn btn-file"><span class="fileupload-new">Wybierz plik</span><span class="fileupload-exists">Zmień plik</span><input type="file" name="photo" /></span>
 				    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Usuń</a>
 				  </div>
 				</div>
@@ -42,7 +42,7 @@
 
 <% } else { // EDYCJA INTNIEJĄCEGO %>
 
-	<form class="form-horizontal" action="/places/<%= data.place._id %>" method="put">
+	<form class="form-horizontal" action="/places/<%= data.place._id %>" method="post">
 
 		<div class="control-group">
 	    <label class="control-label" for="name">Nazwa</label>
@@ -54,14 +54,14 @@
 	  <div class="control-group">
 	    <label class="control-label" for="address">Adres</label>
 	    <div class="controls">
-	      <input type="text" id="address" value="<%= data.place.address %>" placeholder="Dworcowa 358...">
+	      <input type="text" id="address" name="address" value="<%= data.place.address %>" placeholder="Dworcowa 358...">
 	    </div>
 	  </div>
 
 	  <div class="control-group">
 	    <label class="control-label" for="photo">Zdjęcie</label>
 	    <div class="controls">
-	      <input type="text" id="photo" value="<%= data.place.photo %>" placeholder="Dworcowa 358...">
+	      <input type="text" id="photo" name="photo" value="<%= data.place.photo %>" placeholder="Dworcowa 358...">
 	    </div>
 	  </div>
 

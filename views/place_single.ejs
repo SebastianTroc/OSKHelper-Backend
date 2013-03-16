@@ -2,8 +2,14 @@
 
 <h1><%= title %>:</h1>
 
-<% if (data.instructor) { %>
-	<%= data.instructor %>
+<% if (data.flash) { %>
+	<div class="alert alety-<%= data.flash.type %>">
+		<%= data.flash.message %>
+	</div>
+<% } %>
+
+<% if (data.place) { %>
+	<%= data.place %>
 <% } %>
 
 <br>

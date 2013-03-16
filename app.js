@@ -33,10 +33,12 @@ app.configure(function(){
   // app.use(express.basicAuth('user', 'pass'));
   app.use(express.favicon());
   app.use(express.logger('dev'));
-  app.use(express.bodyParser({
-    uploadDir: __dirname + '/public/assets',
-    keepExtensions: true
-  }));
+  app.use(express.bodyParser(
+  // {
+  //   uploadDir: __dirname + '/public/assets',
+  //   keepExtensions: true
+  // }
+  ));
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
   app.use(express.session());
@@ -102,7 +104,7 @@ app.map({
     post: places.addNew,
     '/:id': {
       get: places.findById,
-      put: places.updatePlace,
+      post: places.updatePlace,
       delete: places.deletePlace
     },
     '_new': {

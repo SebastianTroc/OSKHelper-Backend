@@ -86,7 +86,40 @@ exports.createNewWithFaker = function(req, res) {
  */
 exports.updatePlace = function(req, res) {
 
-    console.log(req.body);
+    Place.findById( req.params.id, function(err, place) {
+        place.name = req.body.name;
+        place.address = req.body.address;
+        place.photo = req.body.photo;
+        place.save(function(err){
+            if (!err) {
+                console.log("Zaktualizowano plac id:"+place._id);
+                res.redirect('/places/'+place._id,
+                    {
+                        title: place.name,
+                        flash: {
+                            type: 'success',
+                            message: "Edycja zakończona sukcesem."
+                        }
+                    }
+                )
+            } else {
+                console.log(err);
+                res.redirect('/places/'+place._id,
+                    {
+                        title: place.name,
+                        flash: {
+                            type: "error",
+                            message : "Podczas edycji wystąpił błąd: "+err
+                        }
+                    }
+                );
+            }
+        })
+
+        // res.render('place_single', { title: place.name, data: {place: place} });
+    })
+
+    // console.log(req.body);
 
     // var Faker           = require('Faker')
     // ,   randomName      = 'Plac #' + Faker.random.number()
@@ -100,6 +133,6 @@ exports.updatePlace = function(req, res) {
     //     occupated: false
     // }).save();
 
-    res.redirect('/places');
+    // res.redirect('/places', { data:req });
 
 };
