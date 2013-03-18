@@ -33,7 +33,7 @@ exports.findById = function(req, res) {
 
 
 /*
- * GET instructor add form.
+ * GET place add form.
  */
 exports.editExisting = function(req, res) {
     Place.findOne( { _id: req.params.id }, function(err, place) {
@@ -43,7 +43,7 @@ exports.editExisting = function(req, res) {
 
 
 /*
- * GET instructor add form.
+ * GET place add form.
  */
 exports.createNew = function(req, res) {
     res.render('places_form', { title: 'Nowy plac', data: false });
@@ -81,14 +81,19 @@ exports.createNewWithFaker = function(req, res) {
     ,   randomName      = 'Plac #' + randomNumber
     ,   randomAddress   = Faker.Address.streetAddress();
 
-    new Place(
-    {
-        name: randomName,
-        address: randomAddress,
-        photo: 'plac1.jpg',
-        occupated: false
-    }).save();
-
+    place.name = req.body.name;
+    place.address = req.body.address;
+    place.photo = req.body.photo;
+    place.save(function(err){
+        if (!err) {
+            console.log("Dodano plac id:"+place._id);
+            res.redirect('/places/'+place._id+'?flash=success')
+        } else {
+            console.log(err);
+            req.method = 'GET';
+            res.redirect('/places/'+place._id+'?flash=error');
+        }
+    });
     res.redirect('/places');
 };
 
@@ -137,20 +142,21 @@ exports.updatePlace = function(req, res) {
         // res.render('place_single', { title: place.name, data: {place: place} });
     })
 
-    // console.log(req.body);
-
-    // var Faker           = require('Faker')
-    // ,   randomName      = 'Plac #' + Faker.random.number()
-    // ,   randomAddress   = Faker.Address.streetAddress();
-
-    // new Place(
-    // {
-    //     name: randomName,
-    //     address: randomAddress,
-    //     photo: 'plac1.jpg',
-    //     occupated: false
-    // }).save();
-
-    // res.redirect('/places', { data:req });
-
 };
+
+
+/*
+ * DELETE place add form.
+ */
+exports.deleteItem = function(req, res) {
+    Place.remove({ _id: req.params.id }, function(err){
+        if (!err) {
+            console.log("Usunieto plac.");
+            res.redirect('/places');
+        } else {
+            console.log("Wystapil blad przy usuwaniu placu: "+err);
+            res.redirect('back');
+        }
+    })
+};
+

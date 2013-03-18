@@ -104,14 +104,16 @@ app.map({
     post: places.addNew,
     '/:id': {
       get: places.findById,
-      post: places.updatePlace,
-      delete: places.deletePlace
+      post: places.updatePlace
     },
     '_new': {
       get: places.createNew
     },
     '_edit/:id': {
       get: places.editExisting
+    },
+    '_delete/:id': {
+      get: places.deleteItem
     },
     '_generate': {
       get: places.createNewWithFaker
