@@ -55,17 +55,31 @@ exports.createNew = function(req, res) {
  */
 exports.addNew = function(req, res) {
 
-	var Faker           = require('Faker')
-    ,   randomName      = 'Plac #' + Faker.random.number()
-    ,   randomAddress   = Faker.Address.streetAddress();
+    console.log(req.body);
+    console.log(req.files);
 
-    new Place(
-    {
-        name: randomName,
-        address: randomAddress,
-        photo: 'plac1.jpg',
-        occupated: false
-    }).save();
+    var name = req.body.name.trim()
+    ,   address = req.body.address.trim();
+
+    var fs = require('fs');
+    var tmp_path = req.files.photo.path;
+    var target_path = './public/assets/' + req.files.photo.name;
+    fs.rename(tmp_path, target_path, function(err) {
+        if (err) throw err;
+        fs.unlink(tmp_path, function() {
+            if (err) throw err;
+        });
+        
+        var photo = req.files.photo.filename;
+
+        new Place(
+        {
+            name: name,
+            address: address,
+            photo: photo,
+            occupated: false
+        }).save();
+    });
 
     res.redirect('/places');
 

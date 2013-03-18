@@ -18,11 +18,17 @@
 		<% data.places.forEach(function(place){ %>
 		<tr>
 			<td class="center">
-				<img class="img-polaroid" src="/assets/<%= place.photo %>" alt="Photo">
+				<img class="img-polaroid" width="106" height="106" src="/assets/<%= place.photo %>" alt="Photo">
 			</td>
 			<td><%= place.name %></td>
 			<td><%= place.address %></td>
-			<td><%= place.occupated %></td>
+			<td>
+				<% if (place.occupated) { %>
+					<a href="/instructors/<%= place.occupated %>"></a>
+				<% } else { %>
+					<%= place.occupated %>
+				<% } %>
+			</td>
 			<td>
 				<a href="/places/<%= place._id %>">Szczegóły </a>
 				<a href="/places_edit/<%= place._id %>">Edycja </a>
@@ -35,80 +41,8 @@
 
 <% } else { %>
 
-<li>
-	<a href="#about" data-transition="slide" >
-		<img src="assets/plac1.jpg" alt="Plac #1 Photo" />
-		<h3>Plac #1</h3>
-		<p>ul. Przykładowa 69</p>
-	</a>
-
-</li>
-
-<li>
-	<a href="#about" data-transition="slide" >
-		<img src="assets/plac2.jpg" alt="Plac #2 Photo" />
-		<h3>Plac #2</h3>
-		<p>ul. Przykładowa 69</p>
-	</a>
-</li>
-
-<li>
-	<a href="#about" data-transition="slide" >
-		<img src="assets/plac3.jpg" alt="Plac #3 Photo" />
-		<h3>Plac #3</h3>
-		<p>ul. Przykładowa 69</p>
-	</a>
-</li>
-
-<li>
-	<a href="#about" data-transition="slide" >
-		<img src="assets/plac4.jpg" alt="Plac #4 Photo" />
-		<h3>Plac #4</h3>
-		<p>ul. Przykładowa 69</p>
-	</a>
-</li>
-
-<li>
-	<a href="#about" data-transition="slide" >
-		<img src="assets/plac5.jpg" alt="Plac #5 Photo" />
-		<h3>Plac #5</h3>
-		<p>ul. Przykładowa 69</p>
-	</a>
-</li>
-
-<li>
-	<a href="#about" data-transition="slide" >
-		<img src="assets/plac6.jpg" alt="Plac #6 Photo" />
-		<h3>Plac #6</h3>
-		<p>ul. Przykładowa 69</p>
-	</a>
-</li>
-
-<li>
-	<a href="#about" data-transition="slide" >
-		<img src="assets/plac7.jpg" alt="Plac #7 Photo" />
-		<h3>Plac #7</h3>
-		<p>ul. Przykładowa 69</p>
-	</a>
-</li>
-
-<li>
-	<a href="#about" data-transition="slide" >
-		<img src="assets/plac8.jpg" alt="Plac #8 Photo" />
-		<h3>Plac #8</h3>
-		<p>ul. Przykładowa 69</p>
-	</a>
-</li>
-
-<li>
-	<a href="#about" data-transition="slide" >
-		<img src="assets/plac9.jpg" alt="Plac #9 Photo" />
-		<h3>Plac #9</h3>
-		<p>ul. Przykładowa 69</p>
-	</a>
-</li>
-
 Jeszcze nie ma żadnych placów w bazie.
+
 <% } %>
 
 <% include footer.ejs %>

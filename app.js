@@ -34,10 +34,10 @@ app.configure(function(){
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser(
-  // {
-  //   uploadDir: __dirname + '/public/assets',
-  //   keepExtensions: true
-  // }
+  {
+    keepExtensions: true,
+    uploadDir: './tmp'
+  }
   ));
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
