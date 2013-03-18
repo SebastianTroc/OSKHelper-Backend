@@ -15,7 +15,19 @@ exports.findAll = function(req, res) {
  */
 exports.findById = function(req, res) {
 	Place.findOne( { _id: req.params.id }, function(err, place) {
-  	 res.render('place_single', { title: place.name, data: {place: place} });
+        var flash = {};
+        if (req.query.flash) {
+            if (req.query.flash == 'success') {
+                flash['type'] = 'success';
+                flash['message'] = "Edycja zakończona sukcesem.";
+            } else if (req.query.flash == 'error') {
+                flash['type'] = 'error';
+                flash['message'] = "Podczas edycji wystąpił błąd.";
+            }
+        } else {
+            flash = false;
+        }
+        res.render('place_single', { title: place.name, data: {place: place, flash: flash} });
 	})
 };
 
@@ -93,25 +105,31 @@ exports.updatePlace = function(req, res) {
         place.save(function(err){
             if (!err) {
                 console.log("Zaktualizowano plac id:"+place._id);
-                res.redirect('/places/'+place._id,
-                    {
-                        title: place.name,
-                        flash: {
-                            type: 'success',
-                            message: "Edycja zakończona sukcesem."
-                        }
-                    }
-                )
+                // req.method = 'GET';
+                // res.redirect('/places/'+place._id,
+                //     {
+                //         title: place.name,
+                //         flash: {
+                //             type: 'success',
+                //             message: "Edycja zakończona sukcesem."
+                //         }
+                //     }
+                // )
+
+                res.redirect('/places/'+place._id+'?flash=success')
+                // res.redirect('back');
             } else {
                 console.log(err);
-                res.redirect('/places/'+place._id,
-                    {
-                        title: place.name,
-                        flash: {
-                            type: "error",
-                            message : "Podczas edycji wystąpił błąd: "+err
-                        }
-                    }
+                req.method = 'GET';
+                res.redirect('/places/'+place._id+'?flash=error'
+                    //'/places/'+place._id,
+                    // {
+                    //     title: place.name,
+                    //     flash: {
+                    //         type: "error",
+                    //         message : "Podczas edycji wystąpił błąd: "+err
+                    //     }
+                    // }
                 );
             }
         })
