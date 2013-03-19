@@ -8,10 +8,6 @@
 	</div>
 <% } %>
 
-<% if (data.place) { %>
-	<%= data.place %>
-<% } %>
-
 <table class="table table-hover table-striped table-bordered">
 	<thead>
 		<tr>
@@ -19,6 +15,7 @@
 			<th>Nazwa</th>
 			<th>Adres</th>
 			<th>Zajęty</th>
+			<th>Akcje</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -34,6 +31,10 @@
 				<% } else { %>
 					<%= data.place.occupated %>
 				<% } %>
+			</td>
+			<td>
+				<a class="btn btn-small btn-primary" href="/places_edit/<%= data.place._id %>"><i class="icon-edit icon-white"></i> Edycja </a>
+				<a class="btn btn-small btn-danger" href="/places_delete/<%= data.place._id %>"><i class="icon-remove icon-white"></i> Usuń </a>
 			</td>
 		</tr>
 	</tbody>

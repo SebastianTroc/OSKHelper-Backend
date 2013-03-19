@@ -85,18 +85,20 @@ app.map({
     post: instructors.addNew,
     '/:id': {
       get: instructors.findById,
-      put: instructors.updateInstructor,
-      delete: instructors.deleteInstructor
+      post: instructors.updateInstructor,
     },
     '_new': {
       get: instructors.createNew
     },
     '_edit/:id': {
-      //
+      get: instructors.editExisting
     },
     '_delete/:id': {
-      //
+      get: instructors.deleteItem
     },
+    '_generate': {
+      get: instructors.createNewWithFaker
+    }
   },
 
   '/places': {

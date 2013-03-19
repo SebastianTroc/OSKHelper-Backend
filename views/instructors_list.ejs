@@ -3,7 +3,7 @@
 <h1><%= title %>:</h1>
 
 <% if (data.instructors.length) { %>
-	<table class="table table-hover table-bordered">
+	<table class="table table-hover table-striped table-bordered">
   	<thead>
   		<tr>
   			<th>Nazwa</th>
@@ -23,10 +23,10 @@
 				<td><%= instructor.email %></td>
 				<td><%= instructor.relPlace %></td>
 				<td>
-					<a href="/instructors/<%= instructor._id %>">Szczegóły </a>
-					<a href="/instructors/edit/<%= instructor._id %>">Edycja </a>
-					<a href="/instructors/delete/<%= instructor._id %>">Usuń </a>
-				</td>
+					<a class="btn btn-mini btn-info" href="/instructors/<%= instructor._id %>"><i class="icon-eye-open icon-white"></i> Szczegóły </a>
+					<a class="btn btn-mini btn-primary" href="/instructors_edit/<%= instructor._id %>"><i class="icon-edit icon-white"></i> Edycja </a>
+					<a class="btn btn-mini btn-danger" href="/instructors_delete/<%= instructor._id %>"><i class="icon-remove icon-white"></i> Usuń </a>
+					</td>
 			</tr>
 			<% }) %>
   	</tbody>

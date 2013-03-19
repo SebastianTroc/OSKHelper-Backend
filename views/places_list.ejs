@@ -30,9 +30,9 @@
 				<% } %>
 			</td>
 			<td>
-				<a href="/places/<%= place._id %>">Szczegóły </a>
-				<a href="/places_edit/<%= place._id %>">Edycja </a>
-				<a href="/places_delete/<%= place._id %>">Usuń </a>
+				<a class="btn btn-small btn-info" href="/places/<%= place._id %>"><i class="icon-eye-open icon-white"></i> Szczegóły </a>
+				<a class="btn btn-small btn-primary" href="/places_edit/<%= place._id %>"><i class="icon-edit icon-white"></i> Edycja </a>
+				<a class="btn btn-small btn-danger" href="/places_delete/<%= place._id %>"><i class="icon-remove icon-white"></i> Usuń </a>
 			</td>
 		</tr>
 		<% }) %>

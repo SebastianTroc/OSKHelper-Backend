@@ -69,7 +69,7 @@ exports.addNew = function(req, res) {
         fs.unlink(tmp_path, function() {
             if (err) throw err;
         });
-        
+
         var photo = req.files.photo.filename;
 
         new Place(
@@ -98,7 +98,7 @@ exports.createNewWithFaker = function(req, res) {
     place.name = req.body.name;
     place.address = req.body.address;
     place.photo = req.body.photo;
-    place.save(function(err){
+    place.save(function(err, place){
         if (!err) {
             console.log("Dodano plac id:"+place._id);
             res.redirect('/places/'+place._id+'?flash=success')
@@ -108,7 +108,6 @@ exports.createNewWithFaker = function(req, res) {
             res.redirect('/places/'+place._id+'?flash=error');
         }
     });
-    res.redirect('/places');
 };
 
 
@@ -121,6 +120,7 @@ exports.updatePlace = function(req, res) {
         place.name = req.body.name;
         place.address = req.body.address;
         place.photo = req.body.photo;
+
         place.save(function(err){
             if (!err) {
                 console.log("Zaktualizowano plac id:"+place._id);

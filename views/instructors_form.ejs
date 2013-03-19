@@ -2,38 +2,98 @@
 
 <h1><%= title %>:</h1>
 
-<% if (data.instructors.length) { %>
-	<table class="table table-hover table-bordered">
-  	<thead>
-  		<tr>
-  			<th>Nazwa</th>
-  			<th>login</th>
-  			<th>Numer tel.</th>
-  			<th>E-mail</th>
-  			<th>Plac</th>
-  			<th>Akcje</th>
-  		</tr>
-  	</thead>
-  	<tbody>
-			<% data.instructors.forEach(function(instructor){ %>
-  		<tr>
-				<td><%= instructor.name %></td>
-				<td><%= instructor.login %></td>
-				<td><%= instructor.phone %></td>
-				<td><%= instructor.email %></td>
-				<td><%= instructor.relPlace %></td>
-				<td>
-					<a href="/instructors/<%= instructor._id %>">Szczegóły </a>
-					<a href="/instructors/edit/<%= instructor._id %>">Edycja </a>
-					<a href="/instructors/delete/<%= instructor._id %>">Usuń </a>
-				</td>
-			</tr>
-			<% }) %>
-  	</tbody>
-	</table>
+<% if ( !data ) { // TWORZENIE NOWEGO %>
 
-<% } else { %>
-    Jeszcze nie ma żadnych instruktorów w bazie.
+	<form class="form-horizontal" action="/instructors" method="post">
+
+		<div class="control-group">
+			<label class="control-label" for="name">Nazwa</label>
+			<div class="controls">
+				<input type="text" id="name" name="name" placeholder="Imię Nazwisko...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="login">Login</label>
+			<div class="controls">
+				<input type="text" id="login" name="login" placeholder="imienazwisko...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="password">Hasło</label>
+			<div class="controls">
+				<input type="password" id="password" name="password" placeholder="hasło...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="phone">Nr telefonu</label>
+			<div class="controls">
+				<input type="text" id="phone" name="phone" placeholder="+48 123 456 789...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="email">E-mail</label>
+			<div class="controls">
+				<input type="text" id="email" name="email" placeholder="instruktor@oskhelper.pl...">
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-success">Zapisz</button>
+			<a href="/instructors" class="btn">Anuluj</a>
+		</div>
+
+	</form>
+
+<% } else { // EDYCJA INTNIEJĄCEGO %>
+
+	<form class="form-horizontal" action="/instructors/<%= data.instructor._id %>" method="post">
+
+		<div class="control-group">
+			<label class="control-label" for="name">Nazwa</label>
+			<div class="controls">
+				<input type="text" id="name" name="name" value="<%= data.instructor.name %>" placeholder="Imię Nazwisko...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="login">Login</label>
+			<div class="controls">
+				<input type="text" id="login" name="login" value="<%= data.instructor.login %>" placeholder="imienazwisko...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="password">Hasło</label>
+			<div class="controls">
+				<input type="password" id="password" name="password" placeholder="hasło...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="phone">Nr telefonu</label>
+			<div class="controls">
+				<input type="text" id="phone" name="phone" value="<%= data.instructor.phone %>" placeholder="hasło...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="email">E-mail</label>
+			<div class="controls">
+				<input type="text" id="email" name="email" value="<%= data.instructor.email %>" placeholder="hasło...">
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-success">Zapisz</button>
+			<a href="/instructors" class="btn">Anuluj</a>
+		</div>
+
+	</form>
+
 <% } %>
 
 <% include footer.ejs %>
