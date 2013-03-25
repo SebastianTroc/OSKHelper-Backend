@@ -174,3 +174,27 @@ exports.deleteItem = function(req, res) {
     })
 };
 
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * 
+ *                JSON API
+ * * * * * * * * * * * * * * * * * * * * * * * */
+
+ /*
+ * GET all places JSON
+ */
+ exports.serveAllJson = function(req, res) {
+    Place.find(function(err, placesJSON) {
+     res.jsonp({'places':placesJSON});
+    })
+};
+
+
+ /*
+ * GET one place JSON
+ */
+ exports.serveOneJson = function(req, res) {
+    Place.findOne( { _id: req.params.id }, function(err, placeJSON) {
+        res.jsonp({'place':placeJSON});
+    });
+};

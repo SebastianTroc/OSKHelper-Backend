@@ -12,7 +12,8 @@ var http 		     = require('http')
   , places       = require('./routes/places')
   , path 		     = require('path')
 	, config 	     = JSON.parse(fs.readFileSync("config.json"))
-  , mongoose     = require('mongoose');
+  , mongoose     = require('mongoose')
+  , passport     = require('passport');
   // ,	mongo 	     = require('mongodb')
 	// ,	db 			     = new mongo.Db(config.mongodb.dbname, new mongo.Server( config.mongodb.host, config.mongodb.port, {} ) , {});
 
@@ -33,6 +34,7 @@ app.configure(function(){
   // app.use(express.basicAuth('user', 'pass'));
   app.use(express.favicon());
   app.use(express.logger('dev'));
+  app.use(express.cookieParser('2`hW`cyciEc:]q=I-BBiWGD`t0_#E@r/A6*i*gE$S8VI~nztCqK)u.|&4d7sF-tQ'));
   app.use(express.bodyParser(
   {
     keepExtensions: true,
@@ -40,7 +42,8 @@ app.configure(function(){
   }
   ));
   app.use(express.methodOverride());
-  app.use(express.cookieParser('your secret here'));
+  app.use(express.session({ secret: '&Xi=ukq>zd3*wR*R+94J*g}+3B6#?gkn/29d~XNgI8z=<(;z(;[|u@lld]B[tr8X' }));
+  app.use(passport.initialize());
   app.use(express.session());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
@@ -120,7 +123,21 @@ app.map({
     '_generate': {
       get: places.createNewWithFaker
     }
+  },
+
+  '/api': {
+    // '/auth': {
+    //   post: routes.auth
+    // },
+    '/places': {
+      get: places.serveAllJson,
+      '/:id': {
+        get: places.serveOneJson,
+        post: places.occupyPlace
+      }
+    }
   }
+
 
 });
 

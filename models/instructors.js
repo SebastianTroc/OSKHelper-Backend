@@ -11,11 +11,12 @@ var instructorSchema = new Schema({
     // photo: String,
     login: String,
     password: String,
+    token: String,
     // coordinates: {
     // 	lat: Number,
     // 	lng: Number
     // },
-    phone: String,
+    phone: String,  
     email: String,
     relPlace: [placeSchema]
 });
