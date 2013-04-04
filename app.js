@@ -8,12 +8,14 @@ var http 		     = require('http')
 	, express      = require('express')
 	, verbose      = process.env.NODE_ENV != 'test'
   , routes 	     = require('./routes')
+  , auth         = require('./routes/auth')
   , instructors  = require('./routes/instructors')
   , places       = require('./routes/places')
   , path 		     = require('path')
 	, config 	     = JSON.parse(fs.readFileSync("config.json"))
   , mongoose     = require('mongoose')
-  , passport     = require('passport');
+  , passport     = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
   // ,	mongo 	     = require('mongodb')
 	// ,	db 			     = new mongo.Db(config.mongodb.dbname, new mongo.Server( config.mongodb.host, config.mongodb.port, {} ) , {});
 
@@ -44,7 +46,8 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.session({ secret: '&Xi=ukq>zd3*wR*R+94J*g}+3B6#?gkn/29d~XNgI8z=<(;z(;[|u@lld]B[tr8X' }));
   app.use(passport.initialize());
-  app.use(express.session());
+  app.use(passport.session());
+  // app.use(express.session());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -135,6 +138,9 @@ app.map({
         get: places.serveOneJson,
         post: places.occupyPlace
       }
+    },
+    '/login': {
+      get: auth.login
     }
   }
 
@@ -142,6 +148,25 @@ app.map({
 });
 
 
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
+});
+var io = require('socket.io').listen(server);
+
+io.sockets.on('connection', function (socket) {
+  // socket.emit('news', { hello: 'world' });
+
+  socket.emit('ping', { ping: 'pong' });
+
+  socket.on('occupyPlace', function (data) {
+    console.log(data);
+  });
+
+  socket.on('releasePlace', function (data) {
+    console.log(data);
+  });
+
+  // socket.emit('disablePlace', { place: 'nazwa placu' });
+
+  // socket.emit('enablePlace', { place: 'world' });
 });

@@ -12,7 +12,7 @@ exports.findAll = function(req, res) {
 
 
 /*
-* GET instructor details.
+* GET instructor details by ID
 */
 exports.findById = function(req, res) {
     Instructor.findOne( { _id: req.params.id }, function(err, instructor) {
@@ -31,6 +31,30 @@ exports.findById = function(req, res) {
         res.render('instructor_single', { title: 'Instruktor '+instructor.name, data: {instructor: instructor} });
     })
 };
+
+
+/*
+* GET instructor details by username
+*/
+exports.findByUsername = function(username, callback) {
+    Instructor.findOne( { login: username }, function(err, instructor){
+        if (!err) {
+            var user = instructor;
+            if (user.login === username) {
+                return callback(null, user);
+            }
+        } else {
+            return callback(null, null);
+        }
+    });
+  // for (var i = 0, len = users.length; i < len; i++) {
+  //   var user = users[i];
+  //   if (user.username === username) {
+  //     return fn(null, user);
+  //   }
+  // }
+  // return fn(null, null);
+},
 
 
 /*
@@ -82,7 +106,7 @@ exports.addNew = function(req, res) {
 * POST new generated instructor.
 */
 exports.createNewWithFaker = function(req, res) {
-    var Faker       = require('Faker')
+    var Faker       = require('Faker');
     var name        = Faker.Name.firstName() + ' ' + Faker.Name.lastName()
     ,   login       = Faker.Internet.userName().toLowerCase()
     ,   password    = 'secret' // hardcode'owane haslo, zebym znal haslo kazdego usera w celu testow
