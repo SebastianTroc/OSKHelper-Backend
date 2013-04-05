@@ -154,17 +154,13 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function (socket) {
-  // socket.emit('news', { hello: 'world' });
 
   socket.on('placeIsOccupied', function (data) {
     io.sockets.emit('disablePlace', { place: data.place });
   });
 
-  socket.on('releasePlace', function (data) {
-    console.log(data);
+  socket.on('placeIsFree', function (data) {
+    io.sockets.emit('enablePlace', { place: data.place });
   });
 
-  // socket.emit('disablePlace', { place: 'nazwa placu' });
-
-  // socket.emit('enablePlace', { place: 'world' });
 });

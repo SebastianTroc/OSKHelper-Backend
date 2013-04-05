@@ -11,7 +11,12 @@ var OSK_Helper = {
 
 		socket.on('disablePlace', function(data){
 			console.log('disaplePlace: '+ data.place);
-			$('#status_'+data.place).text('Zajęty').closest('tr').addClass('disabled');
+			$('#status_'+data.place).html('<b>Zajęty</b>').closest('tr').addClass('disabled');
+		});
+
+		socket.on('enablePlace', function(data){
+			console.log('enablePlace: '+ data.place);
+			$('#status_'+data.place).html('Wolny').closest('tr').removeClass('disabled');
 		});
 
 	}
