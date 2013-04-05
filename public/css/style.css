@@ -28,3 +28,7 @@ body {
 table.table td {
 	vertical-align: middle;
 }
+table.table tr.disabled td,
+table.table tr.disabled:hover td {
+  background: #F89F9F;
+}
