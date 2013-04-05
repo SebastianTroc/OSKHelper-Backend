@@ -10,7 +10,7 @@
 			<th>Zdjęcie</th>
 			<th>Nazwa</th>
 			<th>Adres</th>
-			<th>Zajęty</th>
+			<th>Status</th>
 			<th>Akcje</th>
 		</tr>
 	</thead>
@@ -22,11 +22,12 @@
 			</td>
 			<td><%= place.name %></td>
 			<td><%= place.address %></td>
-			<td>
-				<% if (place.occupated) { %>
-					<a href="/instructors/<%= place.occupated %>"></a>
+			<td id="status_<%= place._id %>">
+				<% if (place.occupated === true) { %>
+					<!-- <a href="/instructors/<%= place.occupated %>"></a> -->
+					Zajęty
 				<% } else { %>
-					<%= place.occupated %>
+					Wolny
 				<% } %>
 			</td>
 			<td>

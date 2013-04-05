@@ -156,10 +156,8 @@ var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
   // socket.emit('news', { hello: 'world' });
 
-  socket.emit('ping', { ping: 'pong' });
-
-  socket.on('occupyPlace', function (data) {
-    console.log(data);
+  socket.on('placeIsOccupied', function (data) {
+    io.sockets.emit('disablePlace', { place: data.place });
   });
 
   socket.on('releasePlace', function (data) {
