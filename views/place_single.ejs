@@ -1,0 +1,46 @@
+<% include header.ejs %>
+
+<h1><%= title %>:</h1>
+
+<% if (data.flash) { %>
+	<div class="alert alert-<%= data.flash.type %>">
+		<%= data.flash.message %>
+	</div>
+<% } %>
+
+<table class="table table-hover table-striped table-bordered">
+	<thead>
+		<tr>
+			<th>Zdjęcie</th>
+			<th>Nazwa</th>
+			<th>Adres</th>
+			<th>Zajęty</th>
+			<th>Akcje</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="center">
+				<img class="img-polaroid" src="/assets/<%= data.place.photo %>" alt="Photo">
+			</td>
+			<td><%= data.place.name %></td>
+			<td><%= data.place.address %></td>
+			<td>
+				<% if (data.place.occupated) { %>
+					<a href="/instructors/<%= data.place.occupated %>"></a>
+				<% } else { %>
+					<%= data.place.occupated %>
+				<% } %>
+			</td>
+			<td>
+				<a class="btn btn-small btn-primary" href="/places_edit/<%= data.place._id %>"><i class="icon-edit icon-white"></i> Edycja </a>
+				<a class="btn btn-small btn-danger" href="/places_delete/<%= data.place._id %>"><i class="icon-remove icon-white"></i> Usuń </a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<br>
+<a href="/places">Powrót do listy placów</a>
+
+<% include footer.ejs %>

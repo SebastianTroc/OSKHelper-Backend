@@ -1,0 +1,99 @@
+<% include header.ejs %>
+
+<h1><%= title %>:</h1>
+
+<% if ( !data ) { // TWORZENIE NOWEGO %>
+
+	<form class="form-horizontal" action="/instructors" method="post">
+
+		<div class="control-group">
+			<label class="control-label" for="name">Nazwa</label>
+			<div class="controls">
+				<input type="text" id="name" name="name" placeholder="Imię Nazwisko...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="login">Login</label>
+			<div class="controls">
+				<input type="text" id="login" name="login" placeholder="imienazwisko...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="password">Hasło</label>
+			<div class="controls">
+				<input type="password" id="password" name="password" placeholder="hasło...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="phone">Nr telefonu</label>
+			<div class="controls">
+				<input type="text" id="phone" name="phone" placeholder="+48 123 456 789...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="email">E-mail</label>
+			<div class="controls">
+				<input type="text" id="email" name="email" placeholder="instruktor@oskhelper.pl...">
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-success">Zapisz</button>
+			<a href="/instructors" class="btn">Anuluj</a>
+		</div>
+
+	</form>
+
+<% } else { // EDYCJA INTNIEJĄCEGO %>
+
+	<form class="form-horizontal" action="/instructors/<%= data.instructor._id %>" method="post">
+
+		<div class="control-group">
+			<label class="control-label" for="name">Nazwa</label>
+			<div class="controls">
+				<input type="text" id="name" name="name" value="<%= data.instructor.name %>" placeholder="Imię Nazwisko...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="login">Login</label>
+			<div class="controls">
+				<input type="text" id="login" name="login" value="<%= data.instructor.login %>" placeholder="imienazwisko...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="password">Hasło</label>
+			<div class="controls">
+				<input type="password" id="password" name="password" placeholder="hasło...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="phone">Nr telefonu</label>
+			<div class="controls">
+				<input type="text" id="phone" name="phone" value="<%= data.instructor.phone %>" placeholder="hasło...">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="email">E-mail</label>
+			<div class="controls">
+				<input type="text" id="email" name="email" value="<%= data.instructor.email %>" placeholder="hasło...">
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-success">Zapisz</button>
+			<a href="/instructors" class="btn">Anuluj</a>
+		</div>
+
+	</form>
+
+<% } %>
+
+<% include footer.ejs %>

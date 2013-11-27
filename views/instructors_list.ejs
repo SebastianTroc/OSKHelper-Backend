@@ -1,0 +1,39 @@
+<% include header.ejs %>
+
+<h1><%= title %>:</h1>
+
+<% if (data.instructors.length) { %>
+	<table class="table table-hover table-striped table-bordered">
+  	<thead>
+  		<tr>
+  			<th>Nazwa</th>
+  			<th>login</th>
+  			<th>Numer tel.</th>
+  			<th>E-mail</th>
+  			<th>Plac</th>
+  			<th>Akcje</th>
+  		</tr>
+  	</thead>
+  	<tbody>
+			<% data.instructors.forEach(function(instructor){ %>
+  		<tr>
+				<td><%= instructor.name %></td>
+				<td><%= instructor.login %></td>
+				<td><%= instructor.phone %></td>
+				<td><%= instructor.email %></td>
+				<td><%= instructor.relPlace %></td>
+				<td>
+					<a class="btn btn-mini btn-info" href="/instructors/<%= instructor._id %>"><i class="icon-eye-open icon-white"></i> Szczegóły </a>
+					<a class="btn btn-mini btn-primary" href="/instructors_edit/<%= instructor._id %>"><i class="icon-edit icon-white"></i> Edycja </a>
+					<a class="btn btn-mini btn-danger" href="/instructors_delete/<%= instructor._id %>"><i class="icon-remove icon-white"></i> Usuń </a>
+					</td>
+			</tr>
+			<% }) %>
+  	</tbody>
+	</table>
+
+<% } else { %>
+    Jeszcze nie ma żadnych instruktorów w bazie.
+<% } %>
+
+<% include footer.ejs %>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>OSK Helper</title>
+	<link rel="stylesheet"  href="css/themes/default/jquery.mobile-1.2.0.css" />
+	<!-- <link rel="stylesheet"  href="css/themes/Android/style.css" /> -->
+	<link rel="stylesheet" href="docs/_assets/css/jqm-docs.css" />
+	<script src="js/jquery.js"></script>
+	<!-- // <script src="docs/_assets/js/jqm-docs.js"></script> -->
+	<script src="js/jquery.mobile-1.2.0.js"></script>
+
+</head>
+<body>
+
+	<div data-role="page" id="login">
+		<header data-role="header" class="header">
+			<h1>OSK Helper</h1>
+			<a href="#" data-icon="gear" data-iconpos="notext"></a>
+		</header>
+
+		<section data-role="content">
+			<p>Proszę wprowadzić poprawne dane logowania...</p>
+
+			<form action="" method="post">
+
+				<div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+					<label for="username" class="ui-input-text">Login:</label>
+					<input type="text" name="username" id="username" class="ui-input-text ui-body-null ui-corner-all ui-shadow-inset ui-body-c">
+				</div>	
+
+				<div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+					<label for="password" class="ui-input-text">Hasło:</label>
+					<input type="password" name="password" id="password" class="ui-input-text ui-body-null ui-corner-all ui-shadow-inset ui-body-c">
+				</div>	
+
+				<div data-theme="c" class="ui-btn ui-btn-corner-all ui-shadow ui-btn-up-c" aria-disabled="false"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Zaloguj się</span></span><input type="submit" name="login" value="Login" class="ui-btn-hidden" aria-disabled="false"></div>
+			</form>
+		</section>
+
+		<footer data-role="footer" class="footer">
+			<h4>&copy; 2012 -2013 Sebastian Troć</h4>
+		</footer>
+	</div><!-- /#login -->
+
+	<div data-role="page" id="home">
+
+		<header data-role="header" class="header">
+			<h1>OSK Helper</h1>
+			<a href="#" data-icon="gear" data-iconpos="notext"></a>
+		</header>
+
+		<section data-role="content">
+			<ul data-role="listview" class="ui-listview" data-filter="true">
+
+				<li>
+					<a href="#about" data-transition="slide" >
+						<img src="assets/plac1.jpg" alt="Plac #1 Photo" />
+						<h3>Plac #1</h3>
+						<p>ul. Przykładowa 69</p>
+					</a>
+
+				</li>
+
+				<li>
+					<a href="#about" data-transition="slide" >
+						<img src="assets/plac2.jpg" alt="Plac #2 Photo" />
+						<h3>Plac #2</h3>
+						<p>ul. Przykładowa 69</p>
+					</a>
+				</li>
+
+				<li>
+					<a href="#about" data-transition="slide" >
+						<img src="assets/plac3.jpg" alt="Plac #3 Photo" />
+						<h3>Plac #3</h3>
+						<p>ul. Przykładowa 69</p>
+					</a>
+				</li>
+
+				<li>
+					<a href="#about" data-transition="slide" >
+						<img src="assets/plac4.jpg" alt="Plac #4 Photo" />
+						<h3>Plac #4</h3>
+						<p>ul. Przykładowa 69</p>
+					</a>
+				</li>
+
+				<li>
+					<a href="#about" data-transition="slide" >
+						<img src="assets/plac5.jpg" alt="Plac #5 Photo" />
+						<h3>Plac #5</h3>
+						<p>ul. Przykładowa 69</p>
+					</a>
+				</li>
+
+				<li>
+					<a href="#about" data-transition="slide" >
+						<img src="assets/plac6.jpg" alt="Plac #6 Photo" />
+						<h3>Plac #6</h3>
+						<p>ul. Przykładowa 69</p>
+					</a>
+				</li>
+
+				<li>
+					<a href="#about" data-transition="slide" >
+						<img src="assets/plac7.jpg" alt="Plac #7 Photo" />
+						<h3>Plac #7</h3>
+						<p>ul. Przykładowa 69</p>
+					</a>
+				</li>
+
+				<li>
+					<a href="#about" data-transition="slide" >
+						<img src="assets/plac8.jpg" alt="Plac #8 Photo" />
+						<h3>Plac #8</h3>
+						<p>ul. Przykładowa 69</p>
+					</a>
+				</li>
+
+				<li>
+					<a href="#about" data-transition="slide" >
+						<img src="assets/plac9.jpg" alt="Plac #9 Photo" />
+						<h3>Plac #9</h3>
+						<p>ul. Przykładowa 69</p>
+					</a>
+				</li>
+
+			</ul>
+		</section>
+
+		<footer data-role="footer" class="footer">
+			<h4>&copy; 2012 -2013 Sebastian Troć</h4>
+		</footer>
+
+	</div><!-- /#home -->
+
+
+	<div data-role="page" id="about">
+		<header data-role="header" data-position="inline">
+			<a href="#" data-icon="back" data-rel="back">Powrót</a>
+			<h1>Header</h1>
+			<a href="#" data-icon="gear" data-iconpos=notext></a>
+		</header><!-- /header -->
+
+		<section data-role="content">
+			
+		</section>
+
+		<footer data-role="footer" class="footer">
+			<h4>&copy; 2012 -2013 Sebastian Troć</h4>
+		</footer>
+	</div><!-- /#about -->
+
+
+</body>
+</html>

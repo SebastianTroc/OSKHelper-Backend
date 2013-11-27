@@ -1,0 +1,9 @@
+{
+	"mongodb": {
+		"host" : "ds045017.mongolab.com",
+		"port" : 45017,
+		"dbname" : "oskhelper",
+		"user" : "oskhelper_user",
+		"password" : "oskhelper_password"
+	}
+}

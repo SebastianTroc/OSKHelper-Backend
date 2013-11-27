@@ -1,0 +1,17 @@
+<% layout('layout') -%>
+
+<% block('title', 'Lista instruktorów') -%>
+
+<h1><%= title %></h1>
+
+<% if (data.instructors.length) { %>
+<ul>
+    <% data.instructors.forEach(function(instructor){ %>
+        <li>
+            <a href="/instructors/<%= instructor._id %>"><%= instructor.name %></a> (<%= instructor %>)
+        </li>
+    <% }) %>
+</ul>
+<% } else { %>
+    Jeszcze nie ma żadnych instruktorów w bazie.
+<% } %>

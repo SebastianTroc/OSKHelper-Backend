@@ -1,0 +1,49 @@
+<% include header.ejs %>
+
+<h1><%= title %></h1>
+
+<% if (data.places.length) { %>
+
+<table class="table table-hover table-striped table-bordered">
+	<thead>
+		<tr>
+			<th>Zdjęcie</th>
+			<th>Nazwa</th>
+			<th>Adres</th>
+			<th>Status</th>
+			<th>Akcje</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% data.places.forEach(function(place){ %>
+		<tr>
+			<td class="center">
+				<img class="img-polaroid" width="106" height="106" src="/assets/<%= place.photo %>" alt="Photo">
+			</td>
+			<td><%= place.name %></td>
+			<td><%= place.address %></td>
+			<td id="status_<%= place._id %>">
+				<% if (place.occupated === true) { %>
+					<!-- <a href="/instructors/<%= place.occupated %>"></a> -->
+					Zajęty
+				<% } else { %>
+					Wolny
+				<% } %>
+			</td>
+			<td>
+				<a class="btn btn-small btn-info" href="/places/<%= place._id %>"><i class="icon-eye-open icon-white"></i> Szczegóły </a>
+				<a class="btn btn-small btn-primary" href="/places_edit/<%= place._id %>"><i class="icon-edit icon-white"></i> Edycja </a>
+				<a class="btn btn-small btn-danger" href="/places_delete/<%= place._id %>"><i class="icon-remove icon-white"></i> Usuń </a>
+			</td>
+		</tr>
+		<% }) %>
+	</tbody>
+</table>
+
+<% } else { %>
+
+Jeszcze nie ma żadnych placów w bazie.
+
+<% } %>
+
+<% include footer.ejs %>
