@@ -10,10 +10,10 @@ var placeSchema = new Schema({
     name: String,
     address: String,
     photo: String,
-    // coordinates: {
-    // 	lat: Number,
-    // 	lng: Number
-    // },
+    coordinates: {
+        lat: Number,
+     	lng: Number
+    },
     occupated: {
         status: Boolean,
         who: [instructorSchema]
