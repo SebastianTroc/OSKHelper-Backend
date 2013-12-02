@@ -153,6 +153,13 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 });
 var io = require('socket.io').listen(server);
 
+// AppFog nie obsluguje websocketow, wiec konfiguracja dla xhr
+io.configure(
+  'development', function(){ 
+    io.set('transports', ['xhr-polling']);
+  }
+);
+
 io.sockets.on('connection', function (socket) {
 
   socket.on('placeIsOccupied', function (data) {
