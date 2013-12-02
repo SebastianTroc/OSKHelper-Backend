@@ -4,52 +4,64 @@ var Instructors = require('../models/instructors.js');
  * POST login credentials for API
  */
 exports.login = function(req, res){
-	console.log('logowanie do API:');
-	console.log(req.query);
 
-	if ( chceckCredentials(req.query.username, req.query.password) ) {
+  checkCredentials(req.query.username, req.query.password, function(loginInstance){
+    if ( loginInstance.success ) {
+      res.jsonp(
+        {
+          //'przeslany login':req.query.username,
+          //'przeslane haslo':req.query.password,
+          'instructor_id': loginInstance.instructor_id
+        }
+      );
+      console.log('success');
+    } else {
+      //console.log('Próba zalogowania nieistniejącego instruktora: ' + req.query.username);
+      console.log('21'); console.log(loginInstance.error.message);
+    }
+  });
 
-	} else {
-		console.log('Nie ma takiego instruktora: ' + req.query.username);
-	}
-
-	res.jsonp(
-		{
-			'przeslany login':req.query.username,
-			'przeslane haslo':req.query.password
-		}
-	);
 };
 
-function chceckCredentials(username, password) {
-	Instructors.findOne( { login: username }, function(err, instructor){
+function checkCredentials(username, password, callback) {
+  var response = { 'error': { 'type': 'otherError', 'message': 'Nieokreślony błąd' } };
+
+  Instructors.findOne( { login: username }, function(err, instructor){
     if (!err) {
-    	console.log('Instruktor ' + username + ' istnieje.');
+      // console.log('Instruktor ' + username + ' istnieje.');
       var user = instructor;
       if (user.password === password) {
-         return {
-      		'success': {
-      			'type': 'goodCredentials',
-      			'message': 'Pomyslnie zalogowano'
-      		}
-      	}
+        response = {
+          'success': {
+            'type': 'goodCredentials',
+            'message': 'Pomyslnie zalogowano'
+          },
+          'instructor_id': ""+user._id
+        }
+        console.log('43'); console.log(response);
       } else {
-      	console.log('Haslo sie nie zgadza.');
-      	return {
-      		'error': {
-      			'type': 'badPass',
-      			'message': 'Haslo sie nie zgadza.'
-      		}
-      	}
+        console.log('Haslo sie nie zgadza.');
+        response = {
+          'error': {
+            'type': 'badPass',
+            'message': 'Haslo się nie zgadza.'
+          }
+        }
+        console.log('52'); console.log(response);
       }
     } else {
-    	console.log('Instruktor ' + username + ' NIE istnieje.');
-      return {
-      	'error': {
-      		'type': 'badUser',
-      		'message': 'Nie ma takiego instruktowa.'
-      	}
+      console.log(err);
+      console.log('Instruktor ' + username + ' NIE istnieje.');
+      response = {
+        'error': {
+          'type': 'badUser',
+          'message': 'Login niepoprawny'
+        }
       }
+      console.log('62'); console.log(response);
+      response.error.errorDetails = err;
     }
+
+    return callback(response);
   });
 }
