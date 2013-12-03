@@ -221,3 +221,5 @@ pip-log.txt
 
 # NPM dependencies
 node_modules
+
+.idea
