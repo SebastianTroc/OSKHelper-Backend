@@ -11,7 +11,7 @@ var placeSchema = new Schema({
     address: String,
     photo: String,
     coordinates: {
-        lat: Number,
+      lat: Number,
      	lng: Number
     },
     occupated: {

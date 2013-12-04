@@ -32,3 +32,19 @@ table.table tr.disabled td,
 table.table tr.disabled:hover td {
   background: #FFC7C7;
 }
+
+/*---------------------------------------
+    PLACES FORMS
+ --------------------------------------*/
+#place_map {
+  width: 100%;
+  height: 400px;
+  background: #ccc;
+  border-radius: 4px;
+}
+.form-horizontal .control-label {
+  width: 90px;
+}
+.form-horizontal .controls {
+  margin-left: 110px;
+}

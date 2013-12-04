@@ -1,5 +1,5 @@
 <% include header.ejs %>
-
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 <h1><%= title %></h1>
 
 <% if ( !data ) { // TWORZENIE NOWEGO %>
@@ -44,34 +44,109 @@
 
 	<form class="form-horizontal" action="/places/<%= data.place._id %>" method="post">
 
-		<div class="control-group">
-	    <label class="control-label" for="name">Nazwa</label>
-	    <div class="controls">
-	      <input type="text" id="name" name="name" value="<%= data.place.name %>" placeholder="Plac #...">
-	    </div>
-	  </div>
+		<div class="row">
 
-	  <div class="control-group">
-	    <label class="control-label" for="address">Adres</label>
-	    <div class="controls">
-	      <input type="text" id="address" name="address" value="<%= data.place.address %>" placeholder="Dworcowa 358...">
-	    </div>
-	  </div>
+			<div class="span6">
+				<fieldset>
+					<legend>Dane podstawowe</legend>
+				
+					<div class="control-group">
+				    <label class="control-label" for="name">Nazwa</label>
+				    <div class="controls">
+				      <input type="text" id="name" name="name" value="<%= data.place.name %>" placeholder="Plac #...">
+				    </div>
+				  </div>
+					
+				  <div class="control-group">
+				    <label class="control-label" for="address">Adres</label>
+				    <div class="controls">
+				      <input type="text" id="address" name="address" value="<%= data.place.address %>" placeholder="Dworcowa 358...">
+				    </div>
+				  </div>
+				
+				</fieldset>
+				
+			  <fieldset>
+			  	<legend>Miniaturka</legend>
+		
+			  	<div class="control-group">
+			  	  <label class="control-label" for="photo">Zdjęcie</label>
+			  	  <div class="controls">
+			  	    <input type="text" id="photo" name="photo" value="<%= data.place.photo %>" placeholder="fotka...">
+			  	  </div>
+			  	</div>
+		
+			  </fieldset>
+			</div>
 
-	  <div class="control-group">
-	    <label class="control-label" for="photo">Zdjęcie</label>
-	    <div class="controls">
-	      <input type="text" id="photo" name="photo" value="<%= data.place.photo %>" placeholder="Dworcowa 358...">
-	    </div>
-	  </div>
+			<div class="span6">
+				<fieldset>
+		  		<legend>Koordynaty GPS</legend>
+		  	
+		  				<div class="control-group">
+		  				  <label class="control-label" for="lat">Latitude</label>
+		  				  <div class="controls">
+		  				    <input type="text" id="lat" name="lat" value="<%= data.place.coordinates.lat %>" placeholder="Dworcowa 358...">
+		  				  </div>
+		  				</div>
+		  				
+		  				<div class="control-group">
+		  				  <label class="control-label" for="lng">Longitude</label>
+		  				  <div class="controls">
+		  				    <input type="text" id="lng" name="lng" value="<%= data.place.coordinates.lng %>" placeholder="Dworcowa 358...">
+		  				  </div>
+		  				</div>
+		  			
+		  				<div id="place_map"></div>
+		  		</div>
+		  	
+		  	</fieldset>
+			</div>
 
 		<div class="form-actions">
 		  <button type="submit" class="btn btn-success">Zapisz</button>
 		  <a href="/places" class="btn">Anuluj</a>
 		</div>
 
+		</div> <!-- // .row -->
+
 	</form>
 
 <% } %>
+
+<script>
+	jQuery(document).ready(function($) {
+		var lat_input = $('#lat')
+		,		lng_input = $('#lng')
+		,		lat = ( lat_input.val() != 'undefined' ) ? lat_input.val() : 51.246346526715755
+		,		lng = ( lng_input.val() != 'undefined' ) ? lng_input.val() : 22.610847651958466
+		,		zoom = 18;
+
+		if ( lat_input.val() != 'undefined' && lng_input.val() != 'undefined' ) {
+			zoom = 15
+		}
+
+		var mapOptions = {
+	    zoom: zoom,
+	    center: new google.maps.LatLng(lat, lng),
+	    disableDefaultUI: true
+	  };
+
+	  var map = new google.maps.Map(document.getElementById('place_map'),
+	      mapOptions);
+
+    var marker = new google.maps.Marker({
+	    position: map.getCenter(),
+	    map: map
+	  });
+
+	  google.maps.event.addListener(map,'click',function(event) { 
+	  	lat_input.val( event.latLng.lat() );
+	  	lng_input.val( event.latLng.lng() );
+	  })
+
+	});
+
+</script>
 
 <% include footer.ejs %>

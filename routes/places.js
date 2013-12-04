@@ -37,7 +37,7 @@ exports.findById = function(req, res) {
  */
 exports.editExisting = function(req, res) {
     Place.findOne( { _id: req.params.id }, function(err, place) {
-     res.render('places_form', { title: 'Edycja placu: '+place.name, data: {place: place} });
+        res.render('places_form', { title: 'Edycja placu: '+place.name, data: {place: place} });
     })
 };
 
@@ -120,6 +120,8 @@ exports.updatePlace = function(req, res) {
         place.name = req.body.name;
         place.address = req.body.address;
         place.photo = req.body.photo;
+        place.coordinates.lat = req.body.lat;
+        place.coordinates.lng = req.body.lng;
 
         place.save(function(err){
             if (!err) {
