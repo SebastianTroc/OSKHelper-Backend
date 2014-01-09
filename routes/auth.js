@@ -11,13 +11,13 @@ exports.login = function(req, res){
         {
           //'przeslany login':req.query.username,
           //'przeslane haslo':req.query.password,
-          'instructor_id': loginInstance.instructor_id
+          'instructor_id': loginInstance.instructor_id,
+          'instructor_name': loginInstance.instructor_name
         }
       );
-      console.log('success');
     } else {
       //console.log('Próba zalogowania nieistniejącego instruktora: ' + req.query.username);
-      console.log('21'); console.log(loginInstance.error.message);
+      console.log(loginInstance.error.message);
     }
   });
 
@@ -36,9 +36,10 @@ function checkCredentials(username, password, callback) {
             'type': 'goodCredentials',
             'message': 'Pomyslnie zalogowano'
           },
-          'instructor_id': ""+user._id
+          'instructor_id': ""+user._id,
+          'instructor_name': ""+user.name
         }
-        console.log('43'); console.log(response);
+        console.log(response);
       } else {
         console.log('Haslo sie nie zgadza.');
         response = {
@@ -47,7 +48,7 @@ function checkCredentials(username, password, callback) {
             'message': 'Haslo się nie zgadza.'
           }
         }
-        console.log('52'); console.log(response);
+        console.log(response);
       }
     } else {
       console.log(err);
@@ -58,7 +59,7 @@ function checkCredentials(username, password, callback) {
           'message': 'Login niepoprawny'
         }
       }
-      console.log('62'); console.log(response);
+      console.log(response);
       response.error.errorDetails = err;
     }
 

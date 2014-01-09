@@ -37,12 +37,10 @@ app.configure(function(){
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.cookieParser('2`hW`cyciEc:]q=I-BBiWGD`t0_#E@r/A6*i*gE$S8VI~nztCqK)u.|&4d7sF-tQ'));
-  app.use(express.bodyParser(
-  {
+  app.use(express.bodyParser({
     keepExtensions: true,
     uploadDir: './tmp'
-  }
-  ));
+  }));
   app.use(express.methodOverride());
   app.use(express.session({ secret: '&Xi=ukq>zd3*wR*R+94J*g}+3B6#?gkn/29d~XNgI8z=<(;z(;[|u@lld]B[tr8X' }));
   app.use(passport.initialize());
@@ -70,7 +68,7 @@ app.map = function(a, route){
         break;
       // get: function(){ ... }
       case 'function':
-        if (verbose) console.log('%s %s', key, route);
+        // if (verbose) console.log('%s %s', key, route);
         app[key](route, a[key]);
         break;
     }
