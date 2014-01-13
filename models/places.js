@@ -10,12 +10,13 @@ var placeSchema = new Schema({
     name: String,
     address: String,
     photo: String,
+    photoBase64: String,
     coordinates: {
       lat: Number,
      	lng: Number
     },
-    occupated: {
-        status: Boolean,
+    occupation: {
+        occupied: { type: Boolean, default: false },
         who: [instructorSchema]
     }
 });

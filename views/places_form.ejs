@@ -6,43 +6,83 @@
 
 	<form class="form-horizontal" action="/places" method="post" enctype="multipart/form-data">
 
-		<div class="control-group">
-	    <label class="control-label" for="name">Nazwa</label>
-	    <div class="controls">
-	      <input type="text" id="name" name="name" placeholder="Plac #...">
-	    </div>
-	  </div>
+		<div class="row">
 
-	  <div class="control-group">
-	    <label class="control-label" for="address">Adres</label>
-	    <div class="controls">
-	      <input type="text" id="address" name="address" placeholder="Dworcowa 358...">
-	    </div>
-	  </div>
-
-	  <div class="control-group">
-	    <label class="control-label" for="inputPassword">Zdjęcie</label>
-	    <div class="controls">instructor
-	      <div class="fileupload fileupload-new" data-provides="fileupload">
-				  <div class="fileupload-preview thumbnail" style="width: 100px; height: 100px;"></div>
-				  <div>
-				    <span class="btn btn-file"><span class="fileupload-new">Wybierz plik</span><span class="fileupload-exists">Zmień plik</span><input type="file" name="photo" /></span>
-				    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Usuń</a>
+			<div class="span6">
+				<fieldset>
+					<legend>Dane podstawowe</legend>
+				
+					<div class="control-group">
+				    <label class="control-label" for="name">Nazwa</label>
+				    <div class="controls">
+				      <input type="text" id="name" name="name" placeholder="Plac #...">
+				    </div>
 				  </div>
-				</div>
-	    </div>
-	  </div>
 
-		<div class="form-actions">
-		  <button type="submit" class="btn btn-success">Zapisz</button>
-		  <a href="/places" class="btn">Anuluj</a>
-		</div>
+				  <div class="control-group">
+				    <label class="control-label" for="address">Adres</label>
+				    <div class="controls">
+				      <input type="text" id="address" name="address" placeholder="Dworcowa 358...">
+				    </div>
+				  </div>
+				
+				</fieldset>
+				
+			  <fieldset>
+			  	<legend>Miniaturka</legend>
+		
+			  	<div class="control-group">
+			  	  <label class="control-label">Zdjęcie</label>
+				    <div class="controls">
+				      <div class="fileupload fileupload-new" data-provides="fileupload">
+							  <div class="fileupload-preview thumbnail" style="width: 100px; height: 100px;"></div>
+							  <div>
+							    <span class="btn btn-file"><span class="fileupload-new">Wybierz plik</span><span class="fileupload-exists">Zmień plik</span><input type="file" name="photo" /></span>
+							    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Usuń</a>
+							  </div>
+							</div>
+				    </div>
+			  	</div>
+		
+			  </fieldset>
+			</div>
+
+			<div class="span6">
+				<fieldset>
+		  		<legend>Koordynaty GPS</legend>
+		  	
+		  				<div class="control-group">
+		  				  <label class="control-label" for="lat">Latitude</label>
+		  				  <div class="controls">
+		  				    <input type="text" id="lat" name="lat" value="52.24729983756614" placeholder="Dworcowa 358...">
+		  				  </div>
+		  				</div>
+		  				
+		  				<div class="control-group">
+		  				  <label class="control-label" for="lng">Longitude</label>
+		  				  <div class="controls">
+		  				    <input type="text" id="lng" name="lng" value="21.013530492782593" placeholder="Dworcowa 358...">
+		  				  </div>
+		  				</div>
+		  			
+		  				<div id="place_map"></div>
+		  		</div>
+		  	
+		  	</fieldset>
+			</div>
+		
+			<div class="form-actions">
+			  <button type="submit" class="btn btn-success">Zapisz</button>
+			  <a href="/places" class="btn">Anuluj</a>
+			</div>
+			
+		</div> <!-- // .row -->
 
 	</form>
 
 <% } else { // EDYCJA INTNIEJĄCEGO %>
 
-	<form class="form-horizontal" action="/places/<%= data.place._id %>" method="post">
+	<form class="form-horizontal" action="/places/<%= data.place._id %>" method="post" enctype="multipart/form-data">
 
 		<div class="row">
 
@@ -67,18 +107,34 @@
 				</fieldset>
 				
 			  <fieldset>
-			  	<legend>Miniaturka</legend>
-		
+			  	<legend>Aktualne zdjęcie</legend>
 			  	<div class="control-group">
-			  	  <label class="control-label" for="photo">Zdjęcie</label>
-			  	  <div class="controls">
-			  	    <input type="text" id="photo" name="photo" value="<%= data.place.photo %>" placeholder="fotka...">
-			  	  </div>
+			  	  <label class="control-label">Zdjęcie</label>
+			  	   <div class="controls">
+							  <div class="thumbnail" style="width: 100px; height: 100px;">
+			  					<img src="<%= data.place.photoBase64 %>">
+							  </div>
+				    </div>
+			  	</div>
+			  </fieldset>
+			  <fieldset>
+			  	<legend>Nowe zdjęcie</legend>
+			  	<div class="control-group">
+			  	  <label class="control-label">Zdjęcie</label>
+				    <div class="controls">
+				      <div class="fileupload fileupload-new" data-provides="fileupload">
+							  <div class="fileupload-preview thumbnail" style="width: 100px; height: 100px;"></div>
+							  <div>
+							    <span class="btn btn-file"><span class="fileupload-new">Wybierz plik</span><span class="fileupload-exists">Zmień plik</span><input type="file" name="new_photo" /></span>
+							    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Usuń</a>
+							  </div>
+							</div>
+				    </div>
 			  	</div>
 		
 			  </fieldset>
 			</div>
-
+ 
 			<div class="span6">
 				<fieldset>
 		  		<legend>Koordynaty GPS</legend>

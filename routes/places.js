@@ -1,4 +1,5 @@
 var Place = require('../models/places');
+var toBase64 = require('to-base64');
 
 /*
  * GET places listing.
@@ -19,7 +20,11 @@ exports.findById = function(req, res) {
         if (req.query.flash) {
             if (req.query.flash == 'success') {
                 flash['type'] = 'success';
-                flash['message'] = "Edycja zakończona sukcesem.";
+                if (req.query.type == 'added') {
+                    flash['message'] = "Pomyślnie dodano plac.";
+                } else {
+                    flash['message'] = "Edycja zakończona sukcesem.";
+                };
             } else if (req.query.flash == 'error') {
                 flash['type'] = 'error';
                 flash['message'] = "Podczas edycji wystąpił błąd.";
@@ -55,35 +60,94 @@ exports.createNew = function(req, res) {
  */
 exports.addNew = function(req, res) {
 
-    console.log(req.body);
-    console.log(req.files);
+    // console.log(req.body);
+    // console.log(req.files);
 
     var name = req.body.name.trim()
-    ,   address = req.body.address.trim();
+    ,   address = req.body.address.trim()
+    ,   lat = req.body.lat.trim()
+    ,   lng = req.body.lng.trim();
 
-    var fs = require('fs');
-    var tmp_path = req.files.photo.path;
-    var target_path = './public/assets/' + req.files.photo.name;
-    fs.rename(tmp_path, target_path, function(err) {
-        if (err) throw err;
-        fs.unlink(tmp_path, function() {
-            if (err) throw err;
+    var photo = req.files.photo.filename
+    ,   tmp_path = req.files.photo.path
+    ,   target_path = './public/assets/' + req.files.photo.name;
+
+    if ( tmp_path !== '' ) {
+        moveImage(tmp_path, target_path, function(){
+
+            encodeBase64(target_path, function(result){
+
+                new Place(
+                {
+                    name: name,
+                    address: address,
+                    photo: photo,
+                    photoBase64: result.encodedImage,
+                    coordinates: {
+                        lat: lat,
+                        lng: lng
+                    }
+                }).save(function(err, place){
+                    if (!err) {
+                        console.log("Dodano plac id:"+place._id);
+                        res.redirect('/places/'+place._id+'?flash=success&type=added')
+                    } else {
+                        console.log(err);
+                        req.method = 'GET';
+                        res.redirect('/places/?flash=error');
+                    }
+                });
+            });
         });
-
-        var photo = req.files.photo.filename;
-
-        new Place(
-        {
-            name: name,
-            address: address,
-            photo: photo,
-            occupated: false
-        }).save();
-    });
-
-    res.redirect('/places');
+    };
 
 };
+
+var moveImage = function(oldPath, newPath, callback) {
+    var fs = require('fs');
+    
+    fs.rename(oldPath, newPath, function(err) {
+        if (err) throw err;
+        fs.unlink(oldPath, function() {
+            if (err) throw err;
+            callback.call();
+        });
+    });
+}
+
+var encodeBase64 = function(target, callback) {
+    toBase64(target, function (result) {
+        var encodedImage = "data:" + result.contentType + ";base64," + result.base64;
+
+        callback.call(this, {
+            encodedImage: encodedImage
+        });
+    }, function (error) {
+        console.error(error);
+
+        callback.call(this, {
+            encodedImage: ''
+        });
+    });
+}
+
+
+exports.testBase64 = function(req, res) {
+    var toBase64 = require('to-base64');
+    toBase64('./public/assets/plac1.jpg',function (result) {
+        console.log(result.base64);
+        console.log(result.contentType);
+        console.log(result);
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        var image = "<img src='data:" + result.contentType + ";base64," + result.base64 + "' />"
+        res.end(image);
+        //res.end(result.contentType + '' + result.base64);
+    }, function (error) {
+        console.error(error);
+        req.method = 'GET';
+        res.redirect('/places/?flash=error');
+    });
+}
 
 
 /*
@@ -101,7 +165,7 @@ exports.createNewWithFaker = function(req, res) {
     place.save(function(err, place){
         if (!err) {
             console.log("Dodano plac id:"+place._id);
-            res.redirect('/places/'+place._id+'?flash=success')
+            res.redirect('/places/'+place._id+'?flash=success&type=added')
         } else {
             console.log(err);
             req.method = 'GET';
@@ -117,41 +181,56 @@ exports.createNewWithFaker = function(req, res) {
 exports.updatePlace = function(req, res) {
 
     Place.findById( req.params.id, function(err, place) {
-        place.name = req.body.name;
-        place.address = req.body.address;
-        place.photo = req.body.photo;
-        place.coordinates.lat = req.body.lat;
-        place.coordinates.lng = req.body.lng;
+        place.name = req.body.name.trim();
+        place.address = req.body.address.trim();
+        place.coordinates.lat = req.body.lat.trim();
+        place.coordinates.lng = req.body.lng.trim();
+
+        if (req.files.new_photo.filename !== '') {
+            
+            var photo = req.files.new_photo.filename
+            ,   tmp_path = req.files.new_photo.path
+            ,   target_path = './public/assets/' + req.files.new_photo.name;
+        
+            moveImage(tmp_path, target_path, function(){
+                place.photo = req.files.new_photo.name;
+
+                encodeBase64(target_path, function(result){
+                    
+                    place.photoBase64 = result.encodedImage;
+
+                    place.save(function(err, place){
+                        if (!err) {
+                            console.log("Dodano plac id:"+place._id);
+                            res.redirect('/places/'+place._id+'?flash=success&type=added')
+                        } else {
+                            console.log(err);
+                            req.method = 'GET';
+                            res.redirect('/places/?flash=error');
+                        }
+                    });
+                });
+            });
+        }
+    })
+
+};
+
+
+/*
+ * PUT set places occupation status as occupied
+ */
+exports.occupyPlace = function(req, res) {
+
+    Place.findById( req.params.id, function(err, place) {
+        place.occupation.occupied = true;
+        place.occupation.who = req.body.instructor;
 
         place.save(function(err){
             if (!err) {
-                console.log("Zaktualizowano plac id:"+place._id);
-                // req.method = 'GET';
-                // res.redirect('/places/'+place._id,
-                //     {
-                //         title: place.name,
-                //         flash: {
-                //             type: 'success',
-                //             message: "Edycja zakończona sukcesem."
-                //         }
-                //     }
-                // )
-
-                res.redirect('/places/'+place._id+'?flash=success')
-                // res.redirect('back');
+                console.log("Plac " + place + " zajmuje teraz: " + place.occupation.who);
             } else {
-                console.log(err);
-                req.method = 'GET';
-                res.redirect('/places/'+place._id+'?flash=error'
-                    //'/places/'+place._id,
-                    // {
-                    //     title: place.name,
-                    //     flash: {
-                    //         type: "error",
-                    //         message : "Podczas edycji wystąpił błąd: "+err
-                    //     }
-                    // }
-                );
+                console.log("Problem z zapisaniem zajętości do bazy: " + err);
             }
         })
 

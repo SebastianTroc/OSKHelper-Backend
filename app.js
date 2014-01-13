@@ -124,6 +124,9 @@ app.map({
     '_generate': {
       get: places.createNewWithFaker
     }
+    ,'_test': {
+      get: places.testBase64
+    }
   },
 
   '/api': {
