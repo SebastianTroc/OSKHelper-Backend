@@ -264,7 +264,7 @@ exports.deleteItem = function(req, res) {
  /*
  * GET all places JSON
  */
- exports.serveAllJson = function(req, res) {
+ exports.serveAllPlacesJson = function(req, res) {
     Place.find(function(err, placesJSON) {
      res.jsonp({'places':placesJSON});
     })
@@ -274,7 +274,7 @@ exports.deleteItem = function(req, res) {
  /*
  * GET one place JSON
  */
- exports.serveOneJson = function(req, res) {
+ exports.serveOnePlaceJson = function(req, res) {
     Place.findOne( { _id: req.params.id }, function(err, placeJSON) {
         res.jsonp({'place':placeJSON});
     });

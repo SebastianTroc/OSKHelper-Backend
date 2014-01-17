@@ -209,3 +209,26 @@ exports.deleteItem = function(req, res) {
 };
 
 
+
+/* * * * * * * * * * * * * * * * * * * * * * * * 
+ *                JSON API
+ * * * * * * * * * * * * * * * * * * * * * * * */
+
+ /*
+ * GET all instructors JSON
+ */
+ exports.serveAllInstructorsJson = function(req, res) {
+    Instructor.find(function(err, instructorsJSON) {
+     res.jsonp({'instructors':instructorsJSON});
+    })
+};
+
+
+ /*
+ * GET one instructor JSON
+ */
+ exports.serveOneInstructorJson = function(req, res) {
+    Instructor.findOne( { _id: req.params.id }, function(err, instructorJSON) {
+        res.jsonp({'instructor':instructorJSON});
+    });
+};

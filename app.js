@@ -134,10 +134,16 @@ app.map({
     //   post: routes.auth
     // },
     '/places': {
-      get: places.serveAllJson,
+      get: places.serveAllPlacesJson,
       '/:id': {
-        get: places.serveOneJson,
+        get: places.serveOnePlaceJson,
         post: places.occupyPlace
+      }
+    },
+    '/instructors': {
+      get: instructors.serveAllInstructorsJson,
+      '/:id': {
+        get: instructors.serveOneInstructorJson,
       }
     },
     '/login': {
