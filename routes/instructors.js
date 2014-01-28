@@ -158,32 +158,11 @@ exports.updateInstructor = function(req, res) {
         instructor.save(function(err){
             if (!err) {
                 console.log("Zaktualizowano plac id:"+instructor._id);
-                // req.method = 'GET';
-                // res.redirect('/instructors/'+instructor._id,
-                //     {
-                //         title: instructor.name,
-                //         flash: {
-                //             type: 'success',
-                //             message: "Edycja zakończona sukcesem."
-                //         }
-                //     }
-                // )
-
                 res.redirect('/instructors/'+instructor._id+'?flash=success')
-                // res.redirect('back');
             } else {
                 console.log(err);
                 req.method = 'GET';
-                res.redirect('/instructors/'+instructor._id+'?flash=error'
-                    //'/instructors/'+instructor._id,
-                    // {
-                    //     title: instructor.name,
-                    //     flash: {
-                    //         type: "error",
-                    //         message : "Podczas edycji wystąpił błąd: "+err
-                    //     }
-                    // }
-                );
+                res.redirect('/instructors/'+instructor._id+'?flash=error');
             }
         })
 

@@ -26,7 +26,7 @@ mongoose.connect('mongodb://'+ config.mongodb.user +':'+ config.mongodb.password
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  console.log('polaczono z mongolab');
+  console.log('Polaczono z MongoDB');
 });
 
 app.configure(function(){
