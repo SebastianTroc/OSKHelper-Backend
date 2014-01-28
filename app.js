@@ -14,8 +14,8 @@ var http 		     = require('http')
   , path 		     = require('path')
 	, config 	     = JSON.parse(fs.readFileSync("config.json"))
   , mongoose     = require('mongoose')
-  , passport     = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
+  // , passport     = require('passport')
+  // , LocalStrategy = require('passport-local').Strategy;
   // ,	mongo 	     = require('mongodb')
 	// ,	db 			     = new mongo.Db(config.mongodb.dbname, new mongo.Server( config.mongodb.host, config.mongodb.port, {} ) , {});
 
@@ -43,8 +43,8 @@ app.configure(function(){
   }));
   app.use(express.methodOverride());
   app.use(express.session({ secret: '&Xi=ukq>zd3*wR*R+94J*g}+3B6#?gkn/29d~XNgI8z=<(;z(;[|u@lld]B[tr8X' }));
-  app.use(passport.initialize());
-  app.use(passport.session());
+  // app.use(passport.initialize());
+  // app.use(passport.session());
   // app.use(express.session());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
