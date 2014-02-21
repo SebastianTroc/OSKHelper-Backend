@@ -14,10 +14,6 @@ var http 		     = require('http')
   , path 		     = require('path')
 	, config 	     = JSON.parse(fs.readFileSync("config.json"))
   , mongoose     = require('mongoose')
-  // , passport     = require('passport')
-  // , LocalStrategy = require('passport-local').Strategy;
-  // ,	mongo 	     = require('mongodb')
-	// ,	db 			     = new mongo.Db(config.mongodb.dbname, new mongo.Server( config.mongodb.host, config.mongodb.port, {} ) , {});
 
 var app = express();
 
@@ -33,7 +29,6 @@ app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
-  // app.use(express.basicAuth('user', 'pass'));
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.cookieParser('2`hW`cyciEc:]q=I-BBiWGD`t0_#E@r/A6*i*gE$S8VI~nztCqK)u.|&4d7sF-tQ'));
@@ -43,17 +38,9 @@ app.configure(function(){
   }));
   app.use(express.methodOverride());
   app.use(express.session({ secret: '&Xi=ukq>zd3*wR*R+94J*g}+3B6#?gkn/29d~XNgI8z=<(;z(;[|u@lld]B[tr8X' }));
-  // app.use(passport.initialize());
-  // app.use(passport.session());
-  // app.use(express.session());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
-
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
-
 
 /**
  * Mapping method for router.
@@ -81,76 +68,78 @@ app.map = function(a, route){
  */
 app.map({
   '/': {
-    get: routes.index
+    get: routes.index // Displays homepage
   },
 
+  // Instructors Controller
   '/instructors': {
-  	get: instructors.findAll,
-    post: instructors.addNew,
+    get: instructors.findAll, // Displays all instructors list
+    post: instructors.addNew, // Saves new instructor to the database
     '/:id': {
-      get: instructors.findById,
-      post: instructors.updateInstructor,
+      get: instructors.findById, // Displays details of one instructor selected by ID
+      post: instructors.updateInstructor, // Updates data of one instructor selected by ID
     },
     '_new': {
-      get: instructors.createNew
+      get: instructors.createNew // Displays form for adding new instructor
     },
     '_edit/:id': {
-      get: instructors.editExisting
+      get: instructors.editExisting // Displays form for editing selected instructor
     },
     '_delete/:id': {
-      get: instructors.deleteItem
+      get: instructors.deleteItem // Removes instructor selected by ID
     },
     '_generate': {
-      get: instructors.createNewWithFaker
+      get: instructors.createNewWithFaker // Adds new instructor with generated fake data
     }
   },
 
+  // Places Controller
   '/places': {
-    get: places.findAll,
-    post: places.addNew,
+    get: places.findAll, // Displays all places list
+    post: places.addNew, // Saves new place to the database
     '/:id': {
-      get: places.findById,
-      post: places.updatePlace
+      get: places.findById, // Displays details of one place selected by ID
+      post: places.updatePlace // Updates data of one place selected by ID
     },
     '_new': {
-      get: places.createNew
+      get: places.createNew // Displays form for adding new place
     },
     '_edit/:id': {
-      get: places.editExisting
+      get: places.editExisting // Displays form for editing selected place
     },
     '_delete/:id': {
-      get: places.deleteItem
+      get: places.deleteItem // Removes place selected by ID
     },
     '_generate': {
-      get: places.createNewWithFaker
+      get: places.createNewWithFaker // Adds new place with generated fake data
     }
     ,'_test': {
-      get: places.testBase64
+      get: places.testBase64 // 
     }
   },
 
+  // JSON API Controller
   '/api': {
-    // '/auth': {
-    //   post: routes.auth
-    // },
     '/places': {
-      get: places.serveAllPlacesJson,
+      get: places.serveAllPlacesJson, // Responses with list of all places in JSON format
       '/:id': {
-        get: places.serveOnePlaceJson,
-        post: places.occupyPlace
+        get: places.serveOnePlaceJson, // Responses with dat of concrete place selected by ID in JSON format
+        post: places.occupyPlace // Marks selected place as occupied
       }
     },
     '/instructors': {
-      get: instructors.serveAllInstructorsJson,
+      get: instructors.serveAllInstructorsJson, // Responses with list of all instructors in JSON format
       '/:id': {
-        get: instructors.serveOneInstructorJson,
+        get: instructors.serveOneInstructorJson, // Responses with dat of concrete instructors selected by ID in JSON format
       }
     },
     '/login': {
-      get: auth.login
+      get: auth.login // Authenticates mobile client before allows to exchange other data
+    },
+    '/validate_existance': {
+      get: auth.validateExistance
     }
   }
-
 
 });
 
@@ -160,21 +149,26 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 });
 var io = require('socket.io').listen(server);
 
-// AppFog nie obsluguje websocketow, wiec konfiguracja dla xhr
+// AppFog doesn't support WebSocket, cause the configuration for XHR
 io.configure(
   'development', function(){ 
     io.set('transports', ['xhr-polling']);
   }
 );
 
+// Socket.IO events
 io.sockets.on('connection', function (socket) {
 
   socket.on('placeIsOccupied', function (data) {
-    io.sockets.emit('disablePlace', { place: data.place });
+    places.occupyPlace(data.place, data.instructor, function(){
+      io.sockets.emit('disablePlace', { place: data.place });  
+    });
   });
 
   socket.on('placeIsFree', function (data) {
-    io.sockets.emit('enablePlace', { place: data.place });
+    places.releasePlace(data.place, function(){
+      io.sockets.emit('enablePlace', { place: data.place });  
+    });
   });
 
 });

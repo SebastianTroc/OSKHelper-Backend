@@ -16,8 +16,14 @@ var placeSchema = new Schema({
      	lng: Number
     },
     occupation: {
-        occupied: { type: Boolean, default: false },
-        who: [instructorSchema]
+        occupied: { 
+          type: Boolean,
+          default: false 
+        },
+        who: { 
+          type: ObjectId,
+          ref: 'Instructors'
+        }
     }
 });
 

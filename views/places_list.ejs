@@ -23,9 +23,9 @@
 			<td><%= place.name %></td>
 			<td><%= place.address %></td>
 			<td id="status_<%= place._id %>">
-				<% if (place.occupated === true) { %>
-					<!-- <a href="/instructors/<%= place.occupated %>"></a> -->
-					Zajęty
+				<% if (place.occupation.occupied === true) { %>
+					Zajęty przez 
+					<a href="/instructors/<%= place.occupation.who %>"></a>
 				<% } else { %>
 					Wolny
 				<% } %>
@@ -46,4 +46,4 @@ Jeszcze nie ma żadnych placów w bazie.
 
 <% } %>
 
-<% include footer.ejs %>
+<% include footer.ejs %>y

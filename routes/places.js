@@ -1,12 +1,24 @@
-var Place = require('../models/places');
-var toBase64 = require('to-base64');
+var mongoose     = require('mongoose')
+,   toBase64 = require('to-base64')
+,   Place = require('../models/places')
+,   instructorSchema = require('../models/instructors');
+
+/*
+ * restart occupation data
+ */
+exports.cleanOccupationData = function(req, res) {
+    Place.find(function(err, places) {
+        res.render('places_list', { title: 'Lista placów', data: {places: places} });
+    });
+    Place.update({occupation: {occupied: true}});
+};
 
 /*
  * GET places listing.
  */
 exports.findAll = function(req, res) {
 	Place.find(function(err, places) {
-  	 res.render('places_list', { title: 'Lista placów', data: {places: places} });
+        res.render('places_list', { title: 'Lista placów', data: {places: places} });
 	})
 };
 
@@ -218,23 +230,54 @@ exports.updatePlace = function(req, res) {
 
 
 /*
- * PUT set places occupation status as occupied
+ * NO-HTTP set places occupation status as occupied
  */
-exports.occupyPlace = function(req, res) {
+exports.occupyPlace = function(placeID, instructorID, next) {
 
-    Place.findById( req.params.id, function(err, place) {
-        place.occupation.occupied = true;
-        place.occupation.who = req.body.instructor;
+    Place
+        .findOne( { _id : placeID } )
+        .populate('occupation')
+        .exec(function(err, place) {
+            console.log(place.occupation);
+
+            place.occupation.occupied = true;
+            place.occupation.who = mongoose.Types.ObjectId(instructorID);
+
+            console.log(place.occupation);
+            place.save(function(err){
+                if (!err) {
+                    console.log("Plac " + place._id + " zajmuje teraz: " + place.occupation.who);
+                    next();
+                } else {
+                    console.log("Problem z zapisaniem zajętości do bazy: " + err);
+                    next();
+                }
+            })
+
+        });
+};
+
+/*
+ * NO-HTTP set places occupation status as free
+ */
+exports.releasePlace = function(placeID, next) {
+
+    Place.findById( placeID, function(err, place) {
+        console.log(place.occupation);
+        place.occupation.occupied = false;
+        var who = place.occupation.who;
+        place.occupation.who = undefined;
 
         place.save(function(err){
             if (!err) {
-                console.log("Plac " + place + " zajmuje teraz: " + place.occupation.who);
+                console.log("Plac " + place._id + " został zwolniony przez: " + who);
+                next();
             } else {
                 console.log("Problem z zapisaniem zajętości do bazy: " + err);
+                next();
             }
+            console.log(place.occupation);
         })
-
-        // res.render('place_single', { title: place.name, data: {place: place} });
     })
 
 };

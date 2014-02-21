@@ -2,23 +2,15 @@
 
 var mongoose 	= require('mongoose')
   ,	Schema 		= mongoose.Schema
-  ,	ObjectId 	= Schema.ObjectId
-  , placeSchema = require('./places');
+  ,	ObjectId 	= Schema.ObjectId;
 
 var instructorSchema = new Schema({
     instructor: ObjectId,
     name: String,
-    // photo: String,
     login: String,
     password: String,
-    token: String,
-    // coordinates: {
-    // 	lat: Number,
-    // 	lng: Number
-    // },
     phone: String,  
-    email: String,
-    relPlace: [placeSchema]
+    email: String
 });
 
 module.exports = mongoose.model('Instructors', instructorSchema);

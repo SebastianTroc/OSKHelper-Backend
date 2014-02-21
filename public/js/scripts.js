@@ -6,12 +6,10 @@ var OSK_Helper = {
 
 
 	startSocket: function() {
-
-		// var socket = io.connect('http://localhost:3000');
-		var socket = io.connect('http://oskhelper.eu01.aws.af.cm');
+		var socket = io.connect(window.location.origin);
 
 		socket.on('disablePlace', function(data){
-			console.log('disaplePlace: '+ data.place);
+			console.log('disablePlace: '+ data.place);
 			$('#status_'+data.place).html('<b>Zajęty</b>').closest('tr').addClass('disabled');
 		});
 

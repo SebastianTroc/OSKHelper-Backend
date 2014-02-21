@@ -1,6 +1,18 @@
 var Instructors = require('../models/instructors.js');
 
 /*
+ * GET the confirmation that server exists
+ */
+exports.validateExistance = function(req, res){
+  // res.send('Server istnieje');
+  res.jsonp(
+    {
+      "exists": true
+    }
+  );
+}
+
+/*
  * POST login credentials for API
  */
 exports.login = function(req, res){
