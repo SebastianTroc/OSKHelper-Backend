@@ -17,7 +17,6 @@
   			<th>login</th>
   			<th>Numer tel.</th>
   			<th>E-mail</th>
-  			<th>Plac</th>
   			<th>Akcje</th>
   		</tr>
   	</thead>
@@ -31,7 +30,6 @@
 				<td>
 					<a href="mailto:<%= data.instructor.email %>"><%= data.instructor.email %></a>
 				</td>
-				<td><%= data.instructor.relPlace %></td>
 				<td>
 					<a class="btn btn-mini btn-primary" href="/instructors_edit/<%= data.instructor._id %>"><i class="icon-edit icon-white"></i> Edycja </a>
 					<a class="btn btn-mini btn-danger" href="/instructors_delete/<%= data.instructor._id %>"><i class="icon-remove icon-white"></i> Usuń </a>

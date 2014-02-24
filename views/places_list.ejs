@@ -16,7 +16,7 @@
 	</thead>
 	<tbody>
 		<% data.places.forEach(function(place){ %>
-		<tr>
+		<tr<% if (place.occupation.occupied === true) { %> class="disabled"<% } %>>
 			<td class="center">
 				<img class="img-polaroid" width="106" height="106" src="/assets/<%= place.photo %>" alt="Photo">
 			</td>
@@ -24,8 +24,7 @@
 			<td><%= place.address %></td>
 			<td id="status_<%= place._id %>">
 				<% if (place.occupation.occupied === true) { %>
-					Zajęty przez 
-					<a href="/instructors/<%= place.occupation.who %>"></a>
+					<b>Zajęty</b>
 				<% } else { %>
 					Wolny
 				<% } %>
@@ -46,4 +45,8 @@ Jeszcze nie ma żadnych placów w bazie.
 
 <% } %>
 
-<% include footer.ejs %>y
+<a href="places_new" class="btn btn-success">Dodaj plac</a>
+
+<% include footer.ejs %>
+<br>
+<br>

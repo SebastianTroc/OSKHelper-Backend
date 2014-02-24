@@ -7,10 +7,20 @@ var mongoose     = require('mongoose')
  * restart occupation data
  */
 exports.cleanOccupationData = function(req, res) {
-    Place.find(function(err, places) {
-        res.render('places_list', { title: 'Lista placów', data: {places: places} });
+    Place.find({'occupation.occupied': true}, function(err, places){
+        for (var i = places.length - 1; i >= 0; i--) {
+            places[i].occupation.occupied = false;
+            places[i].occupation.who = undefined;
+
+            places[i].save(function (err) {
+                if(err) {
+                    console.error('ERROR');
+                    console.error(err);
+                }
+            });
+        };
+        console.log('Baza zajętości placów wyczyszczona.');
     });
-    Place.update({occupation: {occupied: true}});
 };
 
 /*

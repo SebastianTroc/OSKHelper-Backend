@@ -14,7 +14,6 @@
 			<th>Zdjęcie</th>
 			<th>Nazwa</th>
 			<th>Adres</th>
-			<th>Zajęty</th>
 			<th>Akcje</th>
 		</tr>
 	</thead>
@@ -25,13 +24,6 @@
 			</td>
 			<td><%= data.place.name %></td>
 			<td><%= data.place.address %></td>
-			<td>
-				<% if (data.place.occupated) { %>
-					<a href="/instructors/<%= data.place.occupated %>"></a>
-				<% } else { %>
-					<%= data.place.occupated %>
-				<% } %>
-			</td>
 			<td>
 				<a class="btn btn-small btn-primary" href="/places_edit/<%= data.place._id %>"><i class="icon-edit icon-white"></i> Edycja </a>
 				<a class="btn btn-small btn-danger" href="/places_delete/<%= data.place._id %>"><i class="icon-remove icon-white"></i> Usuń </a>
